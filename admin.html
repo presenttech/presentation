@@ -3,76 +3,1558 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Upload</title>
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://www.gstatic.com https://cdnjs.cloudflare.com; object-src 'none';">
+    <title>ISET Siliana Professor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Roboto', sans-serif; background-color: #f8fafc; padding: 20px; }
-        .container { max-width: 400px; margin: 0 auto; }
-        .upload-btn { padding: 12px 24px; background: #3182ce; color: #ffffff; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: background 0.3s ease; }
-        .upload-btn:hover { background: #63b3ed; }
-        @media (max-width: 600px) { .container { padding: 10px; } }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8fafc;
+            color: #2d3748;
+            min-height: 100vh;
+            padding-bottom: 70px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            user-select: none;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            animation: headerSlideIn 0.6s ease-out;
+        }
+
+        header h1 {
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 700;
+            margin: 0;
+            transition: color 0.3s ease;
+        }
+
+        .welcome-phrase {
+            text-align: center;
+            padding: 10px 20px;
+            background-color: #e3f2fd;
+            color: #1e3a8a;
+            font-size: 16px;
+            font-weight: 500;
+            animation: welcomeFadeIn 0.8s ease-in;
+        }
+
+        nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            transition: background 0.3s ease;
+        }
+
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 8px;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .nav-btn:hover {
+            color: #a5d6ff;
+            transform: scale(1.05);
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .nav-btn span {
+            margin-top: 4px;
+        }
+
+        .hamburger-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 18px;
+            padding: 8px;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .hamburger-btn:hover {
+            color: #a5d6ff;
+            transform: rotate(90deg);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background: #1a202c;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+            z-index: 2000;
+            transition: left 0.3s ease;
+            padding-top: 60px;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1500;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            color: #e2e8f0;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .sidebar-item:hover {
+            background: #2d3748;
+            color: #a5d6ff;
+        }
+
+        .sidebar-item span {
+            margin-right: 10px;
+        }
+
+        main {
+            padding: 20px;
+            animation: contentFadeIn 0.8s ease-in;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+            animation: modalFadeIn 0.4s ease;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 16px;
+            border: 2px solid #3182ce;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            animation: modalSlideUp 0.5s ease;
+            text-align: center;
+        }
+
+        #undo-modal .modal-content, #schedule-modal .modal-content {
+            background: #1e2a38;
+            border: 2px solid #5dade2;
+            color: #e0e0e0;
+        }
+
+        .modal-content h2 {
+            color: #2d3748;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .modal-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, #3182ce, #63b3ed);
+        }
+
+        #undo-modal .modal-content h2, #schedule-modal .modal-content h2 {
+            color: #ffffff;
+        }
+
+        #undo-modal .modal-content h2::after, #schedule-modal .modal-content h2::after {
+            background: linear-gradient(90deg, #5dade2, #7fbfff);
+        }
+
+        #undo-modal .modal-content h3, #schedule-modal .modal-content h3 {
+            color: #a5d6ff;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .modal-content button, .action-btn, .collective-btn, .upload-btn, .section-toggle-btn {
+            padding: 12px 24px;
+            margin: 8px 4px;
+            background: #3182ce;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .modal-content button:hover, .action-btn:hover, .collective-btn:hover, .upload-btn:hover, .section-toggle-btn:hover {
+            background: #63b3ed;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+        }
+
+        .modal-content input[type="file"] {
+            margin: 12px 0;
+            font-size: 14px;
+            color: #2d3748;
+        }
+
+        .action-btn.present {
+            background: #38a169;
+        }
+
+        .action-btn.present:hover {
+            background: #2f855a;
+        }
+
+        .action-btn.absent {
+            background: #e53e3e;
+        }
+
+        .action-btn.absent:hover {
+            background: #c53030;
+        }
+
+        .action-btn:disabled, .collective-btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .collective-btn {
+            background: #e53e3e;
+            display: block;
+            margin: 24px auto;
+        }
+
+        .collective-btn:hover {
+            background: #c53030;
+        }
+
+        .section-toggle-btn.absences {
+            background: #e53e3e;
+            border-radius: 20px;
+            padding: 10px 20px;
+        }
+
+        .section-toggle-btn.absences:hover {
+            background: #c53030;
+        }
+
+        .section-toggle-btn.files {
+            background: #3182ce;
+            border-radius: 20px;
+            padding: 10px 20px;
+        }
+
+        .section-toggle-btn.files:hover {
+            background: #63b3ed;
+        }
+
+        .undo-action-btn {
+            background: #f6ad55;
+            padding: 6px 14px;
+            font-size: 13px;
+            margin-left: 8px;
+            border-radius: 12px;
+        }
+
+        .undo-action-btn:hover {
+            background: #ed8936;
+        }
+
+        .history-section {
+            display: none;
+            margin-top: 12px;
+            background: #2d3748;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .history-section.show {
+            display: block;
+            animation: slideDown 0.4s ease;
+        }
+
+        .history-item {
+            padding: 10px;
+            border-bottom: 1px solid #5dade2;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .no-history {
+            color: #ff6b6b;
+            font-size: 14px;
+            text-align: center;
+            padding: 8px;
+        }
+
+        .student-list {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #3182ce;
+            width: 90%;
+            max-width: 380px;
+            margin: 20px auto;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            animation: slideUp 0.6s ease;
+        }
+
+        .student-list h2 {
+            margin-bottom: 20px;
+            color: #2d3748;
+            font-size: 22px;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .student-list h2::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, #3182ce, #63b3ed);
+        }
+
+        .student-item {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+            opacity: 0;
+            animation: itemFadeIn 0.5s ease forwards;
+            transition: background 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .student-item.present {
+            background: #f0fff4;
+        }
+
+        .student-item.absent {
+            background: #fff5f5;
+        }
+
+        .student-item.not-marked {
+            background: #f7fafc;
+        }
+
+        .student-item:nth-child(2) { animation-delay: 0.1s; }
+        .student-item:nth-child(3) { animation-delay: 0.2s; }
+        .student-item:nth-child(4) { animation-delay: 0.3s; }
+
+        .student-item:last-child {
+            border-bottom: none;
+        }
+
+        .student-info {
+            flex: 1;
+        }
+
+        .student-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+            transition: color 0.3s ease;
+        }
+
+        .student-name:hover {
+            color: #3182ce;
+        }
+
+        .student-details {
+            display: none;
+            padding: 10px;
+            background: #f7fafc;
+            border-radius: 6px;
+            margin-top: 8px;
+            font-size: 13px;
+            color: #4a5568;
+        }
+
+        .student-details.show {
+            display: block;
+            animation: slideDown 0.4s ease;
+        }
+
+        .student-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .current-schedule {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #3182ce;
+            width: 90%;
+            max-width: 380px;
+            margin: 20px auto;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            animation: slideUp 0.6s ease;
+            text-align: center;
+        }
+
+        .current-schedule h2 {
+            margin-bottom: 16px;
+            color: #2d3748;
+            font-size: 20px;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .current-schedule h2::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, #3182ce, #63b3ed);
+        }
+
+        .current-schedule p {
+            font-size: 15px;
+            color: #4a5568;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+
+        .schedule-table th, .schedule-table td {
+            border: 1px solid #e2e8f0;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .schedule-table th {
+            background: #3182ce;
+            color: #ffffff;
+        }
+
+        .toast {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50px);
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 3000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        body.dark-mode {
+            background: #1a202c;
+            color: #e2e8f0;
+        }
+
+        body.dark-mode header {
+            background: linear-gradient(135deg, #1f2a44, #2d3748);
+        }
+
+        body.dark-mode header h1 {
+            color: #e2e8f0;
+        }
+
+        body.dark-mode .welcome-phrase {
+            background: #2d3748;
+            color: #90cdf4;
+        }
+
+        body.dark-mode nav {
+            background: linear-gradient(135deg, #1f2a44, #2d3748);
+        }
+
+        body.dark-mode .nav-btn, body.dark-mode .hamburger-btn {
+            color: #e2e8f0;
+        }
+
+        body.dark-mode .nav-btn:hover, body.dark-mode .hamburger-btn:hover {
+            color: #a5d6ff;
+        }
+
+        body.dark-mode .student-list, body.dark-mode .current-schedule {
+            background: #2d3748;
+            border-color: #5dade2;
+            color: #e2e8f0;
+        }
+
+        body.dark-mode .student-list h2, body.dark-mode .current-schedule h2 {
+            color: #e2e8f0;
+        }
+
+        body.dark-mode .student-list h2::after, body.dark-mode .current-schedule h2::after {
+            background: linear-gradient(90deg, #5dade2, #7fbfff);
+        }
+
+        body.dark-mode .student-item {
+            border-bottom: 1px solid #4a5568;
+        }
+
+        body.dark-mode .student-item.present {
+            background: #2f855a;
+        }
+
+        body.dark-mode .student-item.absent {
+            background: #c53030;
+        }
+
+        body.dark-mode .student-item.not-marked {
+            background: #2d3748;
+        }
+
+        body.dark-mode .student-name {
+            color: #e2e8f0;
+        }
+
+        body.dark-mode .student-name:hover {
+            color: #5dade2;
+        }
+
+        body.dark-mode .student-details {
+            background: #4a5568;
+            color: #cbd5e0;
+        }
+
+        body.dark-mode .current-schedule p {
+            color: #cbd5e0;
+        }
+
+        body.dark-mode .schedule-table th {
+            background: #5dade2;
+        }
+
+        body.dark-mode .schedule-table td {
+            border-color: #4a5568;
+        }
+
+        @keyframes headerSlideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes contentFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes itemFadeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes modalSlideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes welcomeFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 22px;
+            }
+            .welcome-phrase {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+            .nav-btn {
+                font-size: 11px;
+                padding: 6px;
+            }
+            .hamburger-btn {
+                font-size: 16px;
+            }
+            .sidebar {
+                width: 200px;
+                left: -200px;
+            }
+            .modal-content {
+                width: 90%;
+                padding: 20px;
+            }
+            .modal-content h2 {
+                font-size: 20px;
+            }
+            .modal-content button, .action-btn, .collective-btn, .upload-btn, .section-toggle-btn {
+                font-size: 13px;
+                padding: 10px 20px;
+            }
+            .student-list, .current-schedule {
+                width: 90%;
+                padding: 16px;
+            }
+            .student-list h2, .current-schedule h2 {
+                font-size: 20px;
+            }
+            .student-item {
+                font-size: 13px;
+            }
+            .student-name {
+                font-size: 15px;
+            }
+            .student-details {
+                font-size: 12px;
+            }
+            .current-schedule p {
+                font-size: 14px;
+            }
+            .schedule-table th, .schedule-table td {
+                font-size: 13px;
+                padding: 8px;
+            }
+            .toast {
+                font-size: 13px;
+                padding: 10px 20px;
+            }
+            .history-item {
+                font-size: 13px;
+            }
+            .undo-action-btn {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+        }
     </style>
 </head>
-<body>
-    <div class="container">
-        <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt" class="mb-4 w-full">
-        <button id="uploadButton" class="upload-btn w-full">Upload</button>
+<body oncopy="return false" oncut="return false" onpaste="return false">
+    <header>
+        <h1>ISET Siliana Professor</h1>
+        <button class="hamburger-btn" id="hamburger-btn">☰</button>
+    </header>
+    <div id="welcome-phrase" class="welcome-phrase">Loading...</div>
+    <nav>
+        <button class="nav-btn" id="home-btn"><span>🏠</span><span>Home</span></button>
+        <button class="nav-btn" id="share-files-btn"><span>📤</span><span>Share Files</span></button>
+        <button class="nav-btn" id="dark-mode-toggle"><span>🌙</span><span>Dark Mode</span></button>
+    </nav>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-item" id="action-history-btn">
+            <span>↩️</span> Action History
+        </div>
+        <div class="sidebar-item" id="schedule-btn">
+            <span>📅</span> My Schedule
+        </div>
     </div>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <main>
+        <div id="confirm-modal" class="modal">
+            <div class="modal-content">
+                <h2>Are you sure?</h2>
+                <button id="confirm-yes">Yes</button>
+                <button id="confirm-no">No</button>
+            </div>
+        </div>
+
+        <div id="file-upload-modal" class="modal">
+            <div class="modal-content">
+                <h2>Share a File</h2>
+                <input type="file" id="file-input" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt">
+                <button class="upload-btn" id="upload-file-btn">Upload</button>
+            </div>
+        </div>
+
+        <div id="undo-modal" class="modal">
+            <div class="modal-content">
+                <h2>Action History</h2>
+                <button class="section-toggle-btn absences" id="toggle-absences">Absences</button>
+                <button class="section-toggle-btn files" id="toggle-files">Uploaded Files</button>
+                <div class="history-section" id="absences-section">
+                    <h3>Absences</h3>
+                    <div id="absences-history"></div>
+                </div>
+                <div class="history-section" id="files-section">
+                    <h3>Uploaded Files</h3>
+                    <div id="files-history"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="schedule-modal" class="modal">
+            <div class="modal-content">
+                <h2>My Schedule (IT11)</h2>
+                <table class="schedule-table">
+                    <tr>
+                        <th>Day</th>
+                        <th>Time</th>
+                        <th>Subject</th>
+                    </tr>
+                    <tbody id="schedule-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="current-schedule" class="current-schedule" style="display: none;">
+            <h2>Today's Schedule</h2>
+            <p id="current-schedule-text">No schedule for today.</p>
+        </div>
+
+        <div id="student-list" class="student-list">
+            <h2>Students in IT11</h2>
+            <div>Total Students: <span id="total-students">0</span></div>
+            <div id="students"></div>
+        </div>
+
+        <button id="collective-absent" class="collective-btn">Collective Absent</button>
+    </main>
+    <div id="toast" class="toast hidden"></div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyD2TT6oEZu6zLo5bvVDN2ctIV6VArO-kn0",
-            authDomain: "download-9b2c6.firebaseapp.com",
-            databaseURL: "https://download-9b2c6-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "download-9b2c6",
-            storageBucket: "download-9b2c6.firebasestorage.app",
-            messagingSenderId: "749735866081",
-            appId: "1:749735866081:web:236175aa5f605d224ed1a0"
-        };
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                const firebaseConfig = {
+                    apiKey: "AIzaSyAoXhEeGA22chByuIyxjWzmsFsQJSjqZJY",
+                    authDomain: "absence-iset-siliana.firebaseapp.com",
+                    databaseURL: "https://absence-iset-siliana-default-rtdb.europe-west1.firebasedatabase.app",
+                    projectId: "absence-iset-siliana",
+                    storageBucket: "absence-iset-siliana.firebasestorage.app",
+                    messagingSenderId: "519382535146",
+                    appId: "1:519382535146:web:94629d286b19b8c103c093",
+                    measurementId: "G-3Q9F4KP217"
+                };
+                firebase.initializeApp(firebaseConfig);
+                const auth = firebase.auth();
+                const db = firebase.database();
 
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+                const welcomePhrase = document.getElementById('welcome-phrase');
+                const studentList = document.getElementById('student-list');
+                const totalStudentsSpan = document.getElementById('total-students');
+                const studentsDiv = document.getElementById('students');
+                const collectiveAbsentBtn = document.getElementById('collective-absent');
+                const confirmModal = document.getElementById('confirm-modal');
+                const confirmYes = document.getElementById('confirm-yes');
+                const confirmNo = document.getElementById('confirm-no');
+                const scheduleBody = document.getElementById('schedule-body');
+                const currentSchedule = document.getElementById('current-schedule');
+                const currentScheduleText = document.getElementById('current-schedule-text');
+                const fileUploadModal = document.getElementById('file-upload-modal');
+                const fileInput = document.getElementById('file-input');
+                const uploadFileBtn = document.getElementById('upload-file-btn');
+                const undoModal = document.getElementById('undo-modal');
+                const scheduleModal = document.getElementById('schedule-modal');
+                const toggleAbsencesBtn = document.getElementById('toggle-absences');
+                const toggleFilesBtn = document.getElementById('toggle-files');
+                const absencesSection = document.getElementById('absences-section');
+                const filesSection = document.getElementById('files-section');
+                const absencesHistory = document.getElementById('absences-history');
+                const filesHistory = document.getElementById('files-history');
+                const hamburgerBtn = document.getElementById('hamburger-btn');
+                const sidebar = document.getElementById('sidebar');
+                const sidebarOverlay = document.getElementById('sidebar-overlay');
+                const actionHistoryBtn = document.getElementById('action-history-btn');
+                const scheduleBtn = document.getElementById('schedule-btn');
 
-        const ENCRYPTION_KEY = 'securePassphrase123';
+                let studentsData = [];
+                let selectedStudents = [];
+                let canMark = false;
+                let professorData = null;
+                let professorName = '';
+                let professorEmail = '';
+                let currentSubject = '';
+                let professorKey = null;
 
-        function encryptData(data) {
-            try { return CryptoJS.AES.encrypt(data, ENCRYPTION_KEY).toString(); } catch (e) { console.error("Encryption error:", e); return null; }
-        }
+                const ENCRYPTION_KEY = 'securePassphrase123';
 
-        function sanitizeInput(input) { const div = document.createElement("div"); div.textContent = input; return div.innerHTML; }
+                function showToast(message) {
+                    const toast = document.getElementById('toast');
+                    toast.textContent = message;
+                    toast.classList.remove('hidden');
+                    toast.classList.add('show');
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                        toast.classList.add('hidden');
+                    }, 3000);
+                }
 
-        const fileInput = document.getElementById("fileInput");
-        const uploadButton = document.getElementById("uploadButton");
+                if (localStorage.getItem('darkMode') === 'enabled') {
+                    document.body.classList.add('dark-mode');
+                    const toggleButton = document.getElementById('dark-mode-toggle');
+                    toggleButton.querySelector('span:first-child').textContent = '🌞';
+                    toggleButton.querySelector('span:last-child').textContent = 'Light Mode';
+                }
 
-        uploadButton.addEventListener("click", () => {
-            const file = fileInput.files[0];
-            if (!file) { alert("Please select a file."); return; }
-            const maxSize = 10 * 1024 * 1024;
-            if (file.size > maxSize) { alert("File too large. Max 10 MB."); return; }
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const base64String = e.target.result.split(",")[1];
-                if (!base64String) { alert("Failed to read file."); return; }
-                const encryptedData = encryptData(base64String);
-                if (!encryptedData) { alert("Encryption failed."); return; }
-                const fileName = sanitizeInput(file.name);
-                const fileType = file.type || "application/octet-stream";
-                const uploadDate = new Date().toISOString();
-                db.ref("sharedFiles").push().set({
-                    fileName,
-                    fileType,
-                    fileContent: encryptedData,
-                    uploadDate
-                }).then(() => {
-                    alert("File uploaded successfully.");
-                    fileInput.value = "";
-                }).catch((error) => { console.error("Upload error:", error); alert("Upload failed."); });
-            };
-            reader.onerror = (e) => { console.error("Read error:", e); alert("Error reading file."); };
-            reader.readAsDataURL(file);
+                auth.onAuthStateChanged((user) => {
+                    if (!user) {
+                        showToast('Please log in');
+                        window.location.href = 'index.html';
+                        return;
+                    }
+
+                    professorEmail = user.email.replace(/[.@]/g, '_');
+
+                    db.ref('professors').once('value').then((snapshot) => {
+                        let professorFound = false;
+                        snapshot.forEach((childSnapshot) => {
+                            const professor = childSnapshot.val();
+                            if (professor.email === user.email) {
+                                professorData = professor;
+                                professorKey = childSnapshot.key;
+                                professorFound = true;
+                                professorName = professor.name;
+                            }
+                        });
+
+                        if (!professorFound || !professorData || !professorData.schedule || !professorData.classes) {
+                            showToast('Professor data not found. Please check your email in the database.');
+                            return;
+                        }
+
+                        const hasSeenWelcome = professorData.hasSeenWelcome || false;
+                        if (!hasSeenWelcome) {
+                            welcomePhrase.textContent = `Dear ${professorName}, Welcome to the ISET Siliana Professor Portal!`;
+                            setTimeout(() => {
+                                welcomePhrase.textContent = `Welcome, ${professorName}`;
+                                db.ref(`professors/${professorKey}`).update({ hasSeenWelcome: true });
+                            }, 30000);
+                        } else {
+                            welcomePhrase.textContent = `Welcome, ${professorName}`;
+                        }
+
+                        displayProfessorSchedule(professorData.schedule);
+                        displayCurrentDaySchedule(professorData.schedule);
+
+                        const today = new Date();
+                        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                        const currentDay = daysOfWeek[today.getDay()];
+                        const schedule = professorData.schedule.find(s => s.day === currentDay);
+
+                        if (!schedule) {
+                            showToast('No schedule for today');
+                            collectiveAbsentBtn.style.display = 'none';
+                            currentSubject = '';
+                        } else {
+                            currentSubject = schedule.subject;
+                            const startOfDay = new Date(today);
+                            startOfDay.setHours(0, 0, 0, 0);
+                            const endOfDay = new Date(today);
+                            endOfDay.setHours(23, 59, 59, 999);
+                            const currentTime = today.getTime();
+                            if (currentTime >= startOfDay.getTime() && currentTime <= endOfDay.getTime()) {
+                                canMark = true;
+                            } else {
+                                showToast('Marking window closed');
+                                collectiveAbsentBtn.style.display = 'none';
+                                markUnmarkedStudents(schedule.class);
+                            }
+                        }
+
+                        checkAndResetMarkings();
+
+                        db.ref('students').once('value').then((snapshot) => {
+                            snapshot.forEach((childSnapshot) => {
+                                const student = childSnapshot.val();
+                                const cin = childSnapshot.key;
+                                if (student.class === 'IT11') {
+                                    studentsData.push({ cin, ...student });
+                                }
+                            });
+
+                            if (studentsData.length > 0) {
+                                selectedStudents = studentsData;
+                                totalStudentsSpan.textContent = selectedStudents.length;
+                                renderStudents();
+                                studentList.style.display = 'block';
+                                collectiveAbsentBtn.style.display = canMark ? 'block' : 'none';
+                            } else {
+                                showToast('No students found for IT11');
+                            }
+                        }).catch(error => {
+                            showToast('Error loading students');
+                            console.error(error);
+                        });
+
+                        loadActionHistory();
+                    }).catch(error => {
+                        showToast('Error loading professor data');
+                        console.error(error);
+                    });
+                });
+
+                function checkAndResetMarkings() {
+                    const today = new Date().toISOString().split('T')[0];
+                    const lastMarkingDate = professorData.lastMarkingDate || '';
+
+                    if (lastMarkingDate !== today) {
+                        db.ref(`professorActions/${professorEmail}`).remove().then(() => {
+                            db.ref(`professors/${professorKey}`).update({ lastMarkingDate: today });
+                        }).catch(error => {
+                            showToast('Error resetting markings');
+                            console.error(error);
+                        });
+                    }
+                }
+
+                function displayProfessorSchedule(schedule) {
+                    scheduleBody.innerHTML = '';
+                    schedule.forEach(session => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${session.day}</td>
+                            <td>${session.start}-${session.end}</td>
+                            <td>${session.subject}</td>
+                        `;
+                        scheduleBody.appendChild(row);
+                    });
+                }
+
+                function displayCurrentDaySchedule(schedule) {
+                    const today = new Date();
+                    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                    const currentDay = daysOfWeek[today.getDay()];
+                    const todaySchedule = schedule.find(s => s.day === currentDay);
+
+                    if (todaySchedule) {
+                        currentSchedule.style.display = 'block';
+                        currentScheduleText.textContent = `${todaySchedule.start}-${todaySchedule.end}: ${todaySchedule.subject}`;
+                    } else {
+                        currentSchedule.style.display = 'none';
+                    }
+                }
+
+                function renderStudents() {
+                    studentsDiv.innerHTML = '';
+                    selectedStudents.forEach(student => {
+                        const studentItem = document.createElement('div');
+                        studentItem.className = 'student-item';
+                        studentItem.dataset.cin = student.cin;
+
+                        const today = new Date().toISOString().split('T')[0];
+                        const absences = student.absences || [];
+                        const todayAbsence = absences.find(a => a.date === today && a.class === 'IT11');
+                        const statusClass = todayAbsence ? (todayAbsence.status === 'present' ? 'present' : todayAbsence.status === 'absent' ? 'absent' : 'not-marked') : 'not-marked';
+                        studentItem.classList.add(statusClass);
+
+                        const totalAbsencesForSubject = absences.reduce((total, a) => {
+                            return a.status === 'absent' && a.subject === currentSubject ? total + a.weight : total;
+                        }, 0);
+
+                        const isMarked = todayAbsence && (todayAbsence.status === 'present' || todayAbsence.status === 'absent');
+
+                        studentItem.innerHTML = `
+                            <div class="student-info">
+                                <div class="student-name" data-cin="${student.cin}">
+                                    ${student.firstName} ${student.lastName}
+                                </div>
+                                <div class="student-details" id="details-${student.cin}">
+                                    Full CIN: ${student.cin}<br>
+                                    Email: ${student.email || 'Not provided'}<br>
+                                    Total Absences in ${currentSubject || 'N/A'}: ${totalAbsencesForSubject}
+                                </div>
+                            </div>
+                            <div class="student-actions">
+                                <button class="action-btn present" data-cin="${student.cin}" ${!canMark || isMarked ? 'disabled' : ''}>Present</button>
+                                <button class="action-btn absent" data-cin="${student.cin}" ${!canMark || isMarked ? 'disabled' : ''}>Absent</button>
+                            </div>
+                        `;
+                        studentsDiv.appendChild(studentItem);
+                    });
+
+                    document.querySelectorAll('.student-item').forEach(item => {
+                        item.addEventListener('click', (e) => {
+                            if (e.target.classList.contains('action-btn')) return;
+
+                            const cin = item.dataset.cin;
+                            const details = document.getElementById(`details-${cin}`);
+                            const isVisible = details.classList.contains('show');
+
+                            document.querySelectorAll('.student-details').forEach(d => d.classList.remove('show'));
+
+                            if (!isVisible) {
+                                details.classList.add('show');
+                            }
+                        });
+                    });
+
+                    document.querySelectorAll('.action-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            if (!canMark) {
+                                showToast('Marking window closed');
+                                return;
+                            }
+
+                            const cin = e.target.dataset.cin;
+                            const status = e.target.classList.contains('present') ? 'present' : 'absent';
+                            markStudent(cin, status, 1);
+                        });
+                    });
+                }
+
+                function markStudent(cin, status, weight) {
+                    const studentRef = db.ref('students/' + cin);
+                    studentRef.once('value').then((snapshot) => {
+                        const student = snapshot.val();
+                        if (!student) {
+                            showToast('Student not found');
+                            return;
+                        }
+
+                        const absences = student.absences || [];
+                        const today = new Date().toISOString().split('T')[0];
+                        const todayAbsence = absences.find(a => a.date === today && a.class === 'IT11');
+
+                        if (todayAbsence && (todayAbsence.status === 'present' || todayAbsence.status === 'absent')) {
+                            showToast('Student already marked. Use undo to change.');
+                            return;
+                        }
+
+                        const action = {
+                            type: 'marking',
+                            cin: cin,
+                            studentName: `${student.firstName} ${student.lastName}`,
+                            status: status,
+                            weight: weight,
+                            date: today,
+                            subject: currentSubject || 'N/A',
+                            timestamp: new Date().toISOString(),
+                            previousAbsences: [...absences]
+                        };
+
+                        const actionRef = db.ref(`professorActions/${professorEmail}`).push();
+                        action.actionId = actionRef.key;
+                        actionRef.set(action).then(() => {
+                            const updatedAbsences = absences.filter(a => !(a.date === today && a.class === 'IT11'));
+                            updatedAbsences.push({ date: today, class: 'IT11', status, weight, subject: currentSubject || 'N/A' });
+                            studentRef.update({ absences: updatedAbsences }).then(() => {
+                                showToast(`Marked as ${status}`);
+                                const studentItem = document.querySelector(`.student-item[data-cin="${cin}"]`);
+                                studentItem.classList.remove('present', 'absent', 'not-marked');
+                                studentItem.classList.add(status);
+
+                                studentItem.querySelectorAll('.action-btn').forEach(btn => btn.disabled = true);
+                                collectiveAbsentBtn.disabled = true;
+
+                                const student = selectedStudents.find(s => s.cin === cin);
+                                if (student) student.absences = updatedAbsences;
+                            }).catch(error => {
+                                showToast('Error marking student');
+                                console.error(error);
+                            });
+                        }).catch(error => {
+                            showToast('Error saving action');
+                            console.error(error);
+                        });
+                    }).catch(error => {
+                        showToast('Error fetching student data');
+                        console.error(error);
+                    });
+                }
+
+                collectiveAbsentBtn.addEventListener('click', () => {
+                    if (!canMark) {
+                        showToast('Marking window closed');
+                        return;
+                    }
+                    if (collectiveAbsentBtn.disabled) {
+                        showToast('Students already marked. Use undo to change.');
+                        return;
+                    }
+                    confirmModal.style.display = 'flex';
+                });
+
+                confirmYes.addEventListener('click', () => {
+                    const today = new Date().toISOString().split('T')[0];
+                    const updates = {};
+                    const previousStates = {};
+
+                    selectedStudents.forEach(student => {
+                        const absences = student.absences || [];
+                        const todayAbsence = absences.find(a => a.date === today && a.class === 'IT11');
+                        if (todayAbsence && (todayAbsence.status === 'present' || todayAbsence.status === 'absent')) {
+                            return;
+                        }
+                        previousStates[student.cin] = [...absences];
+                        const updatedAbsences = absences.filter(a => !(a.date === today && a.class === 'IT11'));
+                        updatedAbsences.push({ date: today, class: 'IT11', status: 'absent', weight: 2, subject: currentSubject || 'N/A' });
+                        updates['students/' + student.cin + '/absences'] = updatedAbsences;
+                    });
+
+                    if (Object.keys(updates).length === 0) {
+                        showToast('All students already marked. Use undo to change.');
+                        confirmModal.style.display = 'none';
+                        return;
+                    }
+
+                    const action = {
+                        type: 'collective',
+                        previousStates: previousStates,
+                        date: today,
+                        subject: currentSubject || 'N/A',
+                        timestamp: new Date().toISOString(),
+                        students: selectedStudents.map(student => ({
+                            cin: student.cin,
+                            name: `${student.firstName} ${student.lastName}`
+                        }))
+                    };
+
+                    const actionRef = db.ref(`professorActions/${professorEmail}`).push();
+                    action.actionId = actionRef.key;
+                    actionRef.set(action).then(() => {
+                        db.ref().update(updates).then(() => {
+                            showToast('All students marked as absent (*2)');
+                            confirmModal.style.display = 'none';
+                            document.querySelectorAll('.student-item').forEach(item => {
+                                const cin = item.dataset.cin;
+                                if (previousStates[cin]) {
+                                    item.classList.remove('present', 'absent', 'not-marked');
+                                    item.classList.add('absent');
+                                    item.querySelectorAll('.action-btn').forEach(btn => btn.disabled = true);
+                                }
+                            });
+                            collectiveAbsentBtn.disabled = true;
+
+                            selectedStudents.forEach(student => {
+                                if (previousStates[student.cin]) {
+                                    student.absences = updates['students/' + student.cin + '/absences'];
+                                }
+                            });
+                        }).catch(error => {
+                            showToast('Error marking collective absent');
+                            console.error(error);
+                        });
+                    }).catch(error => {
+                        showToast('Error saving action');
+                        console.error(error);
+                    });
+                });
+
+                confirmNo.addEventListener('click', () => {
+                    confirmModal.style.display = 'none';
+                });
+
+                document.getElementById('share-files-btn').addEventListener('click', () => {
+                    fileUploadModal.style.display = 'flex';
+                });
+
+                uploadFileBtn.addEventListener('click', () => {
+                    const file = fileInput.files[0];
+                    if (!file) {
+                        showToast('Please select a file');
+                        return;
+                    }
+
+                    const maxSize = 10 * 1024 * 1024;
+                    if (file.size > maxSize) {
+                        showToast('File too large. Please upload a file smaller than 10 MB.');
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const base64String = e.target.result;
+                        const rawData = base64String.split(',')[1];
+
+                        const encryptedData = CryptoJS.AES.encrypt(rawData, ENCRYPTION_KEY).toString();
+
+                        const chunkSize = 4 * 1024 * 1024;
+                        const chunks = [];
+                        for (let i = 0; i < encryptedData.length; i += chunkSize) {
+                            chunks.push(encryptedData.substring(i, i + chunkSize));
+                        }
+
+                        const fileName = file.name;
+                        const fileType = file.type || 'application/octet-stream';
+                        const uploadDate = new Date().toISOString();
+
+                        const newFileRef = db.ref('sharedFiles').push();
+                        const fileData = {
+                            fileName: fileName,
+                            fileType: fileType,
+                            uploadDate: uploadDate,
+                            professorName: professorName,
+                            chunks: chunks,
+                            chunkCount: chunks.length
+                        };
+
+                        newFileRef.set(fileData).then(() => {
+                            const action = {
+                                type: 'fileUpload',
+                                fileId: newFileRef.key,
+                                fileName: fileName,
+                                timestamp: uploadDate
+                            };
+                            const actionRef = db.ref(`professorActions/${professorEmail}`).push();
+                            action.actionId = actionRef.key;
+                            actionRef.set(action).then(() => {
+                                showToast('File uploaded successfully');
+                                fileUploadModal.style.display = 'none';
+                                fileInput.value = '';
+                            }).catch(error => {
+                                showToast('Error saving action');
+                                console.error(error);
+                            });
+                        }).catch(error => {
+                            showToast('Error uploading file');
+                            console.error(error);
+                        });
+                    };
+                    reader.onerror = () => {
+                        showToast('Error reading file');
+                    };
+                    reader.readAsDataURL(file);
+                });
+
+                function loadActionHistory() {
+                    db.ref(`professorActions/${professorEmail}`).on('value', (snapshot) => {
+                        absencesHistory.innerHTML = '';
+                        filesHistory.innerHTML = '';
+
+                        const actions = [];
+                        snapshot.forEach(childSnapshot => {
+                            const action = childSnapshot.val();
+                            action.actionId = childSnapshot.key;
+                            actions.push(action);
+                        });
+
+                        actions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                        const absenceActions = actions.filter(a => a.type === 'marking' || a.type === 'collective');
+                        const fileActions = actions.filter(a => a.type === 'fileUpload');
+
+                        if (absenceActions.length === 0) {
+                            absencesHistory.innerHTML = `<div class="no-history">No absence actions</div>`;
+                        } else {
+                            absenceActions.forEach(action => {
+                                const actionDate = new Date(action.timestamp).toLocaleString('en-GB', {
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                });
+                                if (action.type === 'marking') {
+                                    const historyItem = document.createElement('div');
+                                    historyItem.className = 'history-item';
+                                    historyItem.innerHTML = `
+                                        Marked ${action.studentName} as ${action.status} on ${actionDate}
+                                        <button class="undo-action-btn" data-action-id="${action.actionId}">Undo</button>
+                                    `;
+                                    absencesHistory.appendChild(historyItem);
+                                } else if (action.type === 'collective') {
+                                    const historyItem = document.createElement('div');
+                                    historyItem.className = 'history-item';
+                                    historyItem.innerHTML = `
+                                        Marked all students as absent on ${actionDate}
+                                        <button class="undo-action-btn" data-action-id="${action.actionId}">Undo</button>
+                                    `;
+                                    absencesHistory.appendChild(historyItem);
+                                }
+                            });
+                        }
+
+                        if (fileActions.length === 0) {
+                            filesHistory.innerHTML = `<div class="no-history">No file uploads</div>`;
+                        } else {
+                            fileActions.forEach(action => {
+                                const actionDate = new Date(action.timestamp).toLocaleString('en-GB', {
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                });
+                                const historyItem = document.createElement('div');
+                                historyItem.className = 'history-item';
+                                historyItem.innerHTML = `
+                                    Uploaded file ${action.fileName} on ${actionDate}
+                                    <button class="undo-action-btn" data-action-id="${action.actionId}">Undo</button>
+                                `;
+                                filesHistory.appendChild(historyItem);
+                            });
+                        }
+
+                        document.querySelectorAll('.undo-action-btn').forEach(btn => {
+                            btn.addEventListener('click', () => {
+                                const actionId = btn.dataset.actionId;
+                                undoAction(actionId);
+                            });
+                        });
+                    }, (error) => {
+                        showToast('Error loading action history');
+                        console.error(error);
+                    });
+                }
+
+                function undoAction(actionId) {
+                    const actionRef = db.ref(`professorActions/${professorEmail}/${actionId}`);
+                    actionRef.once('value').then((snapshot) => {
+                        const action = snapshot.val();
+                        if (!action) return;
+
+                        if (action.type === 'marking') {
+                            const { cin, previousAbsences } = action;
+                            db.ref('students/' + cin).update({ absences: previousAbsences }).then(() => {
+                                showToast('Undo successful');
+                                actionRef.remove().catch(error => {
+                                    showToast('Error removing action');
+                                    console.error(error);
+                                });
+                                const student = selectedStudents.find(s => s.cin === cin);
+                                if (student) student.absences = previousAbsences;
+                                renderStudents();
+
+                                const studentItem = document.querySelector(`.student-item[data-cin="${cin}"]`);
+                                studentItem.querySelectorAll('.action-btn').forEach(btn => btn.disabled = false);
+                                checkIfAllStudentsMarked();
+                            }).catch(error => {
+                                showToast('Error undoing action');
+                                console.error(error);
+                            });
+                        } else if (action.type === 'collective') {
+                            const updates = {};
+                            for (const cin in action.previousStates) {
+                                updates['students/' + cin + '/absences'] = action.previousStates[cin];
+                                const student = selectedStudents.find(s => s.cin === cin);
+                                if (student) student.absences = action.previousStates[cin];
+                            }
+                            db.ref().update(updates).then(() => {
+                                showToast('Undo successful');
+                                actionRef.remove().catch(error => {
+                                    showToast('Error removing action');
+                                    console.error(error);
+                                });
+                                renderStudents();
+                                collectiveAbsentBtn.disabled = false;
+                                document.querySelectorAll('.student-item').forEach(item => {
+                                    const cin = item.dataset.cin;
+                                    if (action.previousStates[cin]) {
+                                        item.querySelectorAll('.action-btn').forEach(btn => btn.disabled = false);
+                                    }
+                                });
+                            }).catch(error => {
+                                showToast('Error undoing action');
+                                console.error(error);
+                            });
+                        } else if (action.type === 'fileUpload') {
+                            db.ref('sharedFiles/' + action.fileId).remove().then(() => {
+                                showToast('File removed successfully');
+                                actionRef.remove().catch(error => {
+                                    showToast('Error removing action');
+                                    console.error(error);
+                                });
+                            }).catch(error => {
+                                showToast('Error removing file');
+                                console.error(error);
+                            });
+                        }
+                    }).catch(error => {
+                        showToast('Error fetching action');
+                        console.error(error);
+                    });
+                }
+
+                function checkIfAllStudentsMarked() {
+                    const today = new Date().toISOString().split('T')[0];
+                    let allMarked = true;
+                    selectedStudents.forEach(student => {
+                        const absences = student.absences || [];
+                        const todayAbsence = absences.find(a => a.date === today && a.class === 'IT11');
+                        if (!todayAbsence || (todayAbsence.status !== 'present' && todayAbsence.status !== 'absent')) {
+                            allMarked = false;
+                        }
+                    });
+                    collectiveAbsentBtn.disabled = allMarked;
+                }
+
+                function markUnmarkedStudents(className) {
+                    const today = new Date().toISOString().split('T')[0];
+                    const updates = {};
+                    selectedStudents.forEach(student => {
+                        const absences = student.absences || [];
+                        const hasMarkedToday = absences.some(a => a.date === today && a.class === className);
+                        if (!hasMarkedToday) {
+                            absences.push({ date: today, class: className, status: 'not_marked', weight: 0, subject: currentSubject || 'N/A' });
+                            updates['students/' + student.cin + '/absences'] = absences;
+                        }
+                    });
+                    db.ref().update(updates).catch(error => {
+                        showToast('Error marking unmarked students');
+                        console.error(error);
+                    });
+                }
+
+                hamburgerBtn.addEventListener('click', () => {
+                    sidebar.classList.toggle('open');
+                    sidebarOverlay.classList.toggle('show');
+                });
+
+                sidebarOverlay.addEventListener('click', () => {
+                    sidebar.classList.remove('open');
+                    sidebarOverlay.classList.remove('show');
+                });
+
+                actionHistoryBtn.addEventListener('click', () => {
+                    undoModal.style.display = 'flex';
+                    sidebar.classList.remove('open');
+                    sidebarOverlay.classList.remove('show');
+                });
+
+                scheduleBtn.addEventListener('click', () => {
+                    scheduleModal.style.display = 'flex';
+                    sidebar.classList.remove('open');
+                    sidebarOverlay.classList.remove('show');
+                });
+
+                toggleAbsencesBtn.addEventListener('click', () => {
+                    const isVisible = absencesSection.classList.contains('show');
+                    absencesSection.classList.toggle('show', !isVisible);
+                    filesSection.classList.remove('show');
+                });
+
+                toggleFilesBtn.addEventListener('click', () => {
+                    const isVisible = filesSection.classList.contains('show');
+                    filesSection.classList.toggle('show', !isVisible);
+                    absencesSection.classList.remove('show');
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!fileUploadModal.querySelector('.modal-content').contains(e.target) && !e.target.closest('#share-files-btn') && fileUploadModal.style.display === 'flex') {
+                        fileUploadModal.style.display = 'none';
+                        fileInput.value = '';
+                    }
+                    if (!undoModal.querySelector('.modal-content').contains(e.target) && !e.target.closest('#action-history-btn') && undoModal.style.display === 'flex') {
+                        undoModal.style.display = 'none';
+                        absencesSection.classList.remove('show');
+                        filesSection.classList.remove('show');
+                    }
+                    if (!scheduleModal.querySelector('.modal-content').contains(e.target) && !e.target.closest('#schedule-btn') && scheduleModal.style.display === 'flex') {
+                        scheduleModal.style.display = 'none';
+                    }
+                    if (!confirmModal.querySelector('.modal-content').contains(e.target) && !e.target.closest('#collective-absent') && confirmModal.style.display === 'flex') {
+                        confirmModal.style.display = 'none';
+                    }
+                });
+
+                document.getElementById('home-btn').addEventListener('click', () => {
+                    auth.signOut().then(() => {
+                        showToast('Logged out successfully');
+                        window.location.href = 'index.html';
+                    }).catch(error => {
+                        showToast('Error logging out');
+                        console.error(error);
+                    });
+                });
+
+                document.getElementById('dark-mode-toggle').addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    const isDarkMode = document.body.classList.contains('dark-mode');
+                    const toggleButton = document.getElementById('dark-mode-toggle');
+                    toggleButton.querySelector('span:first-child').textContent = isDarkMode ? '🌞' : '🌙';
+                    toggleButton.querySelector('span:last-child').textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
+                    localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+                    showToast(isDarkMode ? 'Dark mode enabled' : 'Light mode enabled');
+                });
+            } catch (error) {
+                console.error('Initialization error:', error);
+                showToast('Error initializing page');
+            }
         });
     </script>
 </body>
