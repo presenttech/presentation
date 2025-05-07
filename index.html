@@ -152,6 +152,11 @@
             color: #5dade2;
         }
 
+        .download-link:disabled {
+            color: #cbd5e0;
+            cursor: not-allowed;
+        }
+
         .file-details {
             font-size: 12px;
             color: #555;
@@ -163,6 +168,43 @@
             font-size: 14px;
             text-align: center;
             padding: 10px;
+        }
+
+        .progress-container {
+            width: 100%;
+            margin: 10px 0;
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 20px;
+            background-color: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #5dade2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #2d3748;
         }
 
         body.dark-mode {
@@ -207,6 +249,14 @@
             color: #03dac6;
         }
 
+        body.dark-mode .progress-container {
+            background: rgba(30, 30, 30, 0.9);
+        }
+
+        body.dark-mode .progress-text {
+            color: #ffffff;
+        }
+
         @keyframes slideUp {
             from { transform: translateY(30px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
@@ -241,10 +291,15 @@
             <div id="shared-files-list"></div>
         </div>
     </div>
+    <div id="progress-container" class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-text" id="progress-text">0%</div>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
         (function() {
             // Ensure Firebase is loaded
@@ -267,16 +322,10 @@
             firebase.initializeApp(firebaseConfig);
             const db = firebase.database();
 
-            // Base passphrase
-            const BASE_PASSPHRASE = 'ISET_Siliana_Secure_2025!@#$';
-
-            // Derive encryption key
-            function deriveKey(salt) {
-                return CryptoJS.PBKDF2(BASE_PASSPHRASE, salt, {
-                    keySize: 256 / 32,
-                    iterations: 10000
-                }).toString();
-            }
+            // Elements for progress
+            const progressContainer = document.getElementById('progress-container');
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
 
             // Dark Mode Toggle
             if (localStorage.getItem('darkMode') === 'enabled') {
@@ -301,30 +350,14 @@
                 if (files.length === 0) {
                     sharedFilesList.innerHTML = `<div class="no-files">No files shared yet</div>`;
                 } else {
-                    files.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
                     files.forEach(file => {
-                        const uploadDate = new Date(file.uploadDate);
-                        const formattedDate = uploadDate.toLocaleDateString('en-GB', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric'
-                        }) + ', ' + uploadDate.toLocaleTimeString('en-US', {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: true
-                        });
-
                         const fileItem = document.createElement('div');
                         fileItem.className = 'file-item';
                         fileItem.innerHTML = `
                             <div class="file-info">
                                 <span class="file-name">${file.fileName}</span>
-                                <div class="file-details">
-                                    Uploaded by: ${file.professorName || 'N/A'} (${file.subject || 'N/A'})<br>
-                                    ${formattedDate}
-                                </div>
                             </div>
-                            <a href="#" class="download-link" data-id="${file.id}" data-filename="${file.fileName}" data-type="${file.fileType || 'application/octet-stream'}" data-salt="${file.salt || ''}">Download</a>
+                            <a href="#" class="download-link" data-id="${file.id}" data-filename="${file.fileName}" data-type="${file.fileType || 'application/octet-stream'}">Download</a>
                         `;
                         sharedFilesList.appendChild(fileItem);
                     });
@@ -334,30 +367,65 @@
                             e.preventDefault();
                             const fileId = link.dataset.id;
                             const fileName = link.dataset.filename;
-                            const fileType = link.dataset.type;
-                            const salt = link.dataset.salt;
+                            let fileType = link.dataset.type;
+
+                            // Set correct MIME type for PPTX files
+                            if (fileName.toLowerCase().endsWith('.pptx')) {
+                                fileType = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+                            }
+
+                            link.classList.add('disabled');
+                            progressContainer.style.display = 'block';
+                            progressFill.style.width = '0%';
+                            progressText.textContent = '0%';
 
                             try {
                                 const fileSnapshot = await db.ref(`sharedFiles/${fileId}`).once('value');
                                 const fileData = fileSnapshot.val();
-                                const encryptedData = fileData.chunks ? fileData.chunks.join('') : fileData.fileContent;
-                                const key = deriveKey(salt || '');
-                                const decrypted = CryptoJS.AES.decrypt(encryptedData, key);
-                                const decryptedBase64 = decrypted.toString(CryptoJS.enc.Base64);
-                                if (!decryptedBase64) {
-                                    throw new Error('Decryption resulted in empty data');
+                                const chunkCount = fileData.chunkCount || 0;
+                                const chunksRef = db.ref(`sharedFiles/${fileId}/chunks`);
+
+                                // Fetch chunks sequentially to ensure order
+                                const chunks = [];
+                                let chunksDownloaded = 0;
+
+                                const updateProgress = () => {
+                                    chunksDownloaded++;
+                                    const percentage = Math.round((chunksDownloaded / chunkCount) * 100);
+                                    progressFill.style.width = `${percentage}%`;
+                                    progressText.textContent = `${percentage}%`;
+                                };
+
+                                for (let i = 0; i < chunkCount; i++) {
+                                    const chunkSnapshot = await chunksRef.child(i.toString()).once('value');
+                                    chunks[i] = chunkSnapshot.val();
+                                    updateProgress();
                                 }
-                                const base64String = `data:${fileType};base64,${decryptedBase64}`;
+
+                                const base64String = chunks.join('');
+                                const binaryString = atob(base64String);
+                                const len = binaryString.length;
+                                const bytes = new Uint8Array(len);
+                                for (let i = 0; i < len; i++) {
+                                    bytes[i] = binaryString.charCodeAt(i);
+                                }
+
+                                const blob = new Blob([bytes], { type: fileType });
+                                const url = URL.createObjectURL(blob);
 
                                 const downloadAnchor = document.createElement('a');
-                                downloadAnchor.href = base64String;
+                                downloadAnchor.href = url;
                                 downloadAnchor.download = fileName;
                                 document.body.appendChild(downloadAnchor);
                                 downloadAnchor.click();
                                 document.body.removeChild(downloadAnchor);
+                                URL.revokeObjectURL(url);
                             } catch (error) {
                                 console.error('Download error:', error);
                                 alert(`Error downloading file: ${error.message}`);
+                            } finally {
+                                link.classList.remove('disabled');
+                                progressContainer.style.display = 'none';
                             }
                         });
                     });
