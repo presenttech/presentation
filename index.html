@@ -6,7 +6,7 @@
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>ISET Siliana Student</title>
+    <title>File Sharing</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -21,43 +21,6 @@
             color: #333;
             transition: background-color 0.3s ease, color 0.3s ease;
             overflow-x: hidden;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 15px;
-            background-color: #2c3e50;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            animation: headerFadeIn 0.5s ease-in;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        header h1 {
-            color: white;
-            font-size: 20px;
-            font-weight: 700;
-            margin: 0;
-            transform: scale(1);
-            transition: transform 0.3s ease;
-        }
-
-        .hamburger-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            transition: color 0.3s ease, transform 0.2s ease;
-        }
-
-        .hamburger-btn:hover {
-            color: #3498db;
-            transform: rotate(90deg);
         }
 
         nav {
@@ -97,148 +60,6 @@
         .nav-btn span {
             margin-top: 2px;
             transition: transform 0.2s ease;
-        }
-
-        main {
-            padding: 15px;
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        .welcome {
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 18px;
-            font-weight: 700;
-            color: #2c3e50;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .details-container {
-            display: none;
-            background-color: #ffffff;
-            padding: 15px;
-            border-radius: 10px;
-            border: 2px solid #3498db;
-            width: 90%;
-            max-width: 340px;
-            margin: 15px auto;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            animation: slideUp 0.4s ease;
-        }
-
-        .details-container.show {
-            display: block;
-        }
-
-        .details-container h2 {
-            margin-bottom: 15px;
-            color: #2c3e50;
-            font-size: 22px;
-            font-weight: 700;
-            position: relative;
-        }
-
-        .details-container h2::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 2px;
-            background: linear-gradient(90deg, #3498db, #5dade2);
-        }
-
-        .details-container p {
-            margin: 8px 0;
-            font-size: 14px;
-            opacity: 0;
-            animation: inputFadeIn 0.3s ease forwards;
-        }
-
-        .details-container p:nth-child(2) { animation-delay: 0.1s; }
-        .details-container p:nth-child(3) { animation-delay: 0.2s; }
-
-        .hamburger-sidebar {
-            position: fixed;
-            top: 0;
-            right: -300px;
-            width: 280px;
-            height: 100%;
-            background: linear-gradient(180deg, #ffffff, #f0f2f5);
-            box-shadow: -2px 0 10px rgba(0,0,0,0.2);
-            z-index: 2000;
-            padding: 20px;
-            transition: right 0.3s ease;
-        }
-
-        .hamburger-sidebar.open {
-            right: 0;
-        }
-
-        .hamburger-sidebar h2 {
-            margin-bottom: 20px;
-            color: #2c3e50;
-            font-size: 22px;
-            font-weight: 700;
-            position: relative;
-            text-align: center;
-        }
-
-        .hamburger-sidebar h2::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 3px;
-            background: linear-gradient(90deg, #3498db, #5dade2);
-        }
-
-        .hamburger-sidebar .menu-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 15px;
-            margin-bottom: 12px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .hamburger-sidebar .menu-item:hover {
-            background-color: #5dade2;
-            transform: translateX(5px);
-        }
-
-        .hamburger-sidebar .menu-item i {
-            margin-right: 10px;
-            font-size: 16px;
-        }
-
-        .hamburger-sidebar .close-sidebar {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-            color: #e74c3c;
-            padding: 5px 10px;
-            border-radius: 50%;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .hamburger-sidebar .close-sidebar:hover {
-            background-color: #e74c3c;
-            color: white;
-            transform: rotate(90deg);
         }
 
         .modal {
@@ -293,220 +114,6 @@
             background: linear-gradient(90deg, #3498db, #5dade2);
         }
 
-        .modal-content button {
-            padding: 8px 16px;
-            margin-top: 10px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-
-        .modal-content button:hover {
-            background-color: #5dade2;
-        }
-
-        .classmate-item {
-            padding: 8px;
-            border-bottom: 1px solid #d1d8e0;
-            font-size: 14px;
-        }
-
-        .classmate-item:last-child {
-            border-bottom: none;
-        }
-
-        .no-classmates {
-            color: #e74c3c;
-            font-size: 14px;
-            text-align: center;
-            padding: 10px;
-        }
-
-        .absence-container {
-            background-color: #ffffff;
-            padding: 15px;
-            border-radius: 10px;
-            border: 2px solid #3498db;
-            width: 90%;
-            max-width: 340px;
-            margin: 15px auto;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            animation: slideUp 0.4s ease;
-        }
-
-        .absence-container h2 {
-            margin-bottom: 15px;
-            color: #2c3e50;
-            font-size: 22px;
-            font-weight: 700;
-            position: relative;
-            text-align: center;
-        }
-
-        .absence-container h2::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 2px;
-            background: linear-gradient(90deg, #3498db, #5dade2);
-        }
-
-        .subject-section {
-            margin-bottom: 15px;
-            border-bottom: 1px solid #d1d8e0;
-            padding-bottom: 10px;
-        }
-
-        .subject-section:last-child {
-            border-bottom: none;
-        }
-
-        .subject-header {
-            background-color: #bb86fc;
-            color: white;
-            padding: 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background-color 0.3s ease;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .subject-header:hover {
-            background-color: #03dac6;
-        }
-
-        .subject-header.active {
-            background-color: #3498db;
-        }
-
-        .subject-details {
-            display: none;
-            padding: 12px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            margin-top: 8px;
-        }
-
-        .subject-details.show {
-            display: block;
-            animation: slideDown 0.3s ease;
-        }
-
-        .absence-item {
-            padding: 8px 0;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .absence-item:last-child {
-            border-bottom: none;
-        }
-
-        .absence-date {
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .absence-weight {
-            color: #e74c3c;
-            font-weight: 500;
-        }
-
-        .absence-count {
-            font-size: 14px;
-            color: #e74c3c;
-            margin: 8px 0;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        .no-absences {
-            color: #e74c3c;
-            font-size: 14px;
-            text-align: center;
-            padding: 10px;
-        }
-
-        .email-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            overflow-y: auto;
-            transition: opacity 0.3s ease;
-        }
-
-        .email-modal.show {
-            display: flex;
-            opacity: 1;
-        }
-
-        .email-modal .modal-content {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #3498db;
-            width: 90%;
-            max-width: 340px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-            animation: slideUp 0.4s ease;
-        }
-
-        .email-modal .email-update {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .email-modal .email-update input {
-            padding: 8px;
-            border: 1px solid #d1d8e0;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .email-modal .email-update button {
-            padding: 8px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-
-        .email-modal .email-update button:hover {
-            background-color: #5dade2;
-        }
-
-        .files-modal .modal-content {
-            width: 90%;
-            max-width: 340px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
         .file-item {
             padding: 8px;
             border-bottom: 1px solid #d1d8e0;
@@ -558,127 +165,32 @@
             padding: 10px;
         }
 
-        .toast {
-            position: fixed;
-            top: 60px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-50px);
-            background: linear-gradient(90deg, #2c3e50, #34495e);
-            color: #ffffff;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 400;
-            opacity: 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 3000;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .toast button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: background-color 0.3s ease;
-        }
-
-        .toast button:hover {
-            background-color: #5dade2;
-        }
-
-        /* Dark Mode Styles */
         body.dark-mode {
             background-color: #121212;
             color: #ffffff;
         }
 
-        body.dark-mode header,
         body.dark-mode nav {
             background-color: #1e1e1e;
             box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
         }
 
-        body.dark-mode .welcome {
-            color: #ffffff;
-        }
-
-        body.dark-mode .details-container,
-        body.dark-mode .absence-container,
-        body.dark-mode .modal-content,
-        body.dark-mode .hamburger-sidebar {
+        body.dark-mode .modal-content {
             background: linear-gradient(180deg, #1e1e1e, #252525);
             color: #ffffff;
             border-color: #bb86fc;
         }
 
-        body.dark-mode .details-container h2,
-        body.dark-mode .absence-container h2,
-        body.dark-mode .modal-content h2,
-        body.dark-mode .hamburger-sidebar h2 {
+        body.dark-mode .modal-content h2 {
             color: #ffffff;
         }
 
-        body.dark-mode .details-container h2::after,
-        body.dark-mode .absence-container h2::after,
-        body.dark-mode .modal-content h2::after,
-        body.dark-mode .hamburger-sidebar h2::after {
+        body.dark-mode .modal-content h2::after {
             background: linear-gradient(90deg, #bb86fc, #03dac6);
         }
 
-        body.dark-mode .hamburger-sidebar .menu-item {
-            background-color: #bb86fc;
-        }
-
-        body.dark-mode .hamburger-sidebar .menu-item:hover {
-            background-color: #03dac6;
-        }
-
-        body.dark-mode .classmate-item,
-        body.dark-mode .absence-item,
-        body.dark-mode .file-item,
-        body.dark-mode .subject-section {
+        body.dark-mode .file-item {
             border-bottom: 1px solid #bb86fc;
-        }
-
-        body.dark-mode .subject-header {
-            background-color: #bb86fc;
-        }
-
-        body.dark-mode .subject-header:hover,
-        body.dark-mode .subject-header.active:hover {
-            background-color: #03dac6;
-        }
-
-        body.dark-mode .subject-header.active {
-            background-color: #3498db;
-        }
-
-        body.dark-mode .subject-details {
-            background-color: #2c2c2c;
-        }
-
-        body.dark-mode .absence-count {
-            color: #ff5555;
-        }
-
-        body.dark-mode .absence-date {
-            color: #ffffff;
-        }
-
-        body.dark-mode .absence-weight {
-            color: #ff5555;
         }
 
         body.dark-mode .file-details {
@@ -695,623 +207,187 @@
             color: #03dac6;
         }
 
-        body.dark-mode .email-modal .modal-content {
-            background-color: #1e1e1e;
-            border-color: #bb86fc;
-        }
-
-        body.dark-mode .email-modal .email-update input {
-            background-color: #2c2c2c;
-            color: #ffffff;
-            border-color: #bb86fc;
-        }
-
-        body.dark-mode .toast {
-            background: linear-gradient(90deg, #1e1e1e, #2c2c2c);
-            color: #ffffff;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
         @keyframes slideUp {
             from { transform: translateY(30px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
 
-        @keyframes slideDown {
-            from { transform: translateY(-10px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        @keyframes inputFadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes headerFadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* Responsive Design */
         @media (max-width: 600px) {
-            header h1 {
-                font-size: 18px;
-            }
             .nav-btn {
                 font-size: 9px;
                 padding: 3px;
             }
-            .details-container,
-            .absence-container,
             .modal-content {
                 width: 90%;
                 padding: 12px;
             }
-            .details-container h2,
-            .absence-container h2,
             .modal-content h2 {
                 font-size: 20px;
             }
-            .details-container p,
-            .modal-content p {
-                font-size: 13px;
-            }
-            .welcome {
-                font-size: 16px;
-            }
-            .toast {
-                font-size: 12px;
-                padding: 8px 16px;
-            }
-            .classmate-item,
-            .absence-item,
             .file-item {
                 font-size: 12px;
-            }
-            .subject-header {
-                padding: 10px;
-                font-size: 14px;
-            }
-            .absence-count {
-                font-size: 13px;
-            }
-            .absence-date, .absence-weight {
-                font-size: 12px;
-            }
-            .hamburger-sidebar {
-                width: 240px;
-            }
-            .hamburger-sidebar h2 {
-                font-size: 20px;
-            }
-            .hamburger-sidebar .menu-item {
-                font-size: 14px;
-                padding: 10px 12px;
-            }
-            .email-modal .modal-content {
-                max-width: 90%;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>ISET Siliana Student</h1>
-        <button class="hamburger-btn" id="hamburger-btn" aria-label="Open menu"><i class="fas fa-bars"></i></button>
-    </header>
     <nav>
-        <button class="nav-btn" id="home-btn" aria-label="Home"><span>🏠</span><span>Home</span></button>
         <button class="nav-btn" id="files-btn" aria-label="Shared Files"><span>📁</span><span>Shared Files</span></button>
         <button class="nav-btn" id="dark-mode-toggle" aria-label="Toggle dark mode"><span>🌙</span><span>Dark Mode</span></button>
     </nav>
-    <main>
-        <div class="welcome" id="welcome-message">Loading...</div>
-        <div class="details-container" id="details-container">
-            <h2>Your Details</h2>
-            <p id="class-info">Class: Loading...</p>
-            <p id="current-class">Now: Loading...</p>
-        </div>
-        <div class="absence-container">
-            <h2>Your Absences</h2>
-            <div id="absence-details"></div>
-        </div>
-    </main>
-    <!-- Classmates Modal -->
-    <div id="classmates-modal" class="modal">
-        <div class="modal-content">
-            <h2>Classmates</h2>
-            <div id="modal-classmates-list"></div>
-        </div>
-    </div>
-    <!-- Email Update Modal -->
-    <div id="email-modal" class="modal email-modal">
-        <div class="modal-content">
-            <h2>Update Email</h2>
-            <div class="email-update">
-                <input type="email" id="email-input" placeholder="Enter your email" aria-label="Enter your email">
-                <button id="update-email-btn" aria-label="Save email">Save</button>
-            </div>
-        </div>
-    </div>
-    <!-- Shared Files Modal -->
     <div id="files-modal" class="modal files-modal">
         <div class="modal-content">
             <h2>Shared Files</h2>
             <div id="shared-files-list"></div>
         </div>
     </div>
-    <!-- Hamburger Sidebar -->
-    <div id="hamburger-sidebar" class="hamburger-sidebar">
-        <button class="close-sidebar" id="close-hamburger-sidebar" aria-label="Close menu"><i class="fas fa-times"></i></button>
-        <h2>Menu</h2>
-        <button class="menu-item" id="sidebar-classmates-btn" aria-label="View classmates"><i class="fas fa-users"></i>Classmates</button>
-        <button class="menu-item" id="sidebar-email-btn" aria-label="Update email"><i class="fas fa-envelope"></i>Email</button>
-    </div>
-    <div id="toast" class="toast hidden"></div>
 
-    <!-- Firebase SDK (Lazy-loaded) -->
-    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <!-- CryptoJS for encryption/decryption (Lazy-loaded) -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
-        // Toast notification
-        function showToast(message, duration = 6000, showLoginButton = false) {
-            const toast = document.getElementById('toast');
-            toast.innerHTML = showLoginButton ? 
-                `${message} <button onclick="window.location.href='index.html'">Return to Login</button>` : 
-                message;
-            toast.classList.remove('hidden');
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-                toast.classList.add('hidden');
-            }, duration);
-        }
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                // Firebase Configuration
-                const firebaseConfig = {
-                    apiKey: "AIzaSyAoXhEeGA22chByuIyxjWzmsFsQJSjqZJY",
-                    authDomain: "absence-iset-siliana.firebaseapp.com",
-                    databaseURL: "https://absence-iset-siliana-default-rtdb.europe-west1.firebasedatabase.app",
-                    projectId: "absence-iset-siliana",
-                    storageBucket: "absence-iset-siliana.firebasestorage.app",
-                    messagingSenderId: "519382535146",
-                    appId: "1:519382535146:web:94629d286b19b8c103c093",
-                    measurementId: "G-3Q9F4KP217"
-                };
-                firebase.initializeApp(firebaseConfig);
-                const db = firebase.database();
-
-                // Base passphrase
-                const BASE_PASSPHRASE = 'ISET_Siliana_Secure_2025!@#$';
-
-                // Derive encryption key
-                function deriveKey(salt) {
-                    return CryptoJS.PBKDF2(BASE_PASSPHRASE, salt, {
-                        keySize: 256 / 32,
-                        iterations: 10000
-                    }).toString();
-                }
-
-                // Dark Mode Toggle
-                if (localStorage.getItem('darkMode') === 'enabled') {
-                    document.body.classList.add('dark-mode');
-                    const toggleButton = document.getElementById('dark-mode-toggle');
-                    toggleButton.querySelector('span:first-child').textContent = '🌞';
-                    toggleButton.querySelector('span:last-child').textContent = 'Light Mode';
-                }
-
-                // Extract CIN and token from URL
-                const urlParams = new URLSearchParams(window.location.search);
-                const cin = urlParams.get('cin');
-                const token = urlParams.get('token');
-
-                // Prevent browser caching of this page
-                window.history.replaceState({}, document.title, window.location.pathname);
-
-                // Validate CIN and token
-                if (!cin || !/^\d{8}$/.test(cin)) {
-                    showToast('Invalid or missing CIN. Please log in again.', 6000, true);
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 6000);
-                    return;
-                }
-
-                if (!token) {
-                    showToast('Access denied. Please log in first.', 6000, true);
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 6000);
-                    return;
-                }
-
-                // Validate token
-                const tokenRef = db.ref(`loginTokens/${cin}/${token}`);
-                const snapshot = await tokenRef.once('value');
-                const tokenData = snapshot.val();
-
-                if (!tokenData || tokenData.expires < Date.now()) {
-                    showToast('Invalid or expired token. Please log in again.', 6000, true);
-                    await tokenRef.remove(); // Clean up invalid/expired token
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 6000);
-                    return;
-                }
-
-                // Token is valid, clean up and proceed
-                await tokenRef.remove();
-                initializePage(cin);
-
-                function initializePage(cin) {
-                    // Subjects list
-                    const subjects = [
-                        'Dev. Web et Multimédias 2',
-                        'A. Dev. Web et Multimédias 2',
-                        'Technique d’expression 2',
-                        'UVT3 (2CN)',
-                        'Algo & Programmation',
-                        'Option 2: Atelier Linux',
-                        'Sys. Exploitation',
-                        'Fond Réseaux',
-                        'English for Computing 2',
-                        'A. Système 1',
-                        'Préparation aux métiers',
-                        'Stat & Proba',
-                        'Recherche Opérationnelle',
-                        'A. Programmation'
-                    ];
-
-                    // Subject mapping
-                    const subjectMapping = {
-                        'Dev Web': 'Dev. Web et Multimédias 2',
-                        'A. Dev Web': 'A. Dev. Web et Multimédias 2',
-                        'Technique d\'expression': 'Technique d’expression 2',
-                        'UVT3': 'UVT3 (2CN)',
-                        'Algo & Prog': 'Algo & Programmation',
-                        'Atelier Linux': 'Option 2: Atelier Linux',
-                        'Sys Exploitation': 'Sys. Exploitation',
-                        'Fond Reseaux': 'Fond Réseaux',
-                        'English': 'English for Computing 2',
-                        'A. Systeme': 'A. Système 1',
-                        'Prep Metiers': 'Préparation aux métiers',
-                        'Stat Proba': 'Stat & Proba',
-                        'Rech Op': 'Recherche Opérationnelle',
-                        'A. Prog': 'A. Programmation'
-                    };
-
-                    // Normalize string
-                    function normalizeString(str) {
-                        return str ? str.trim().toLowerCase() : '';
-                    }
-
-                    // Update details visibility
-                    function updateDetailsVisibility() {
-                        const detailsContainer = document.getElementById('details-container');
-                        const currentClassP = document.getElementById('current-class');
-                        detailsContainer.classList.add('show');
-                        currentClassP.textContent = 'No class schedule available';
-                    }
-
-                    setInterval(updateDetailsVisibility, 60000);
-                    updateDetailsVisibility();
-
-                    // Fetch student details
-                    let studentClass = '';
-                    let classmates = [];
-                    const studentRef = db.ref('students/' + cin);
-
-                    // Render absences
-                    function renderAbsences(absences) {
-                        const absenceBySubject = {};
-                        subjects.forEach(subject => {
-                            const normalizedSubject = normalizeString(subject);
-                            absenceBySubject[subject] = absences.filter(a => {
-                                const normalizedAbsenceSubject = normalizeString(a.mappedSubject);
-                                return normalizedAbsenceSubject === normalizedSubject && a.status === 'absent';
-                            });
-                        });
-
-                        const absenceDetails = document.getElementById('absence-details');
-                        absenceDetails.innerHTML = '';
-
-                        subjects.forEach(subject => {
-                            const sectionDiv = document.createElement('div');
-                            sectionDiv.className = 'subject-section';
-                            const absencesForSubject = absenceBySubject[subject] || [];
-                            const absenceCount = absencesForSubject.reduce((total, a) => total + (a.weight || 0), 0);
-                            sectionDiv.innerHTML = `
-                                <div class="subject-header" data-subject="${subject}">
-                                    <span>${subject}</span>
-                                </div>
-                                <div class="subject-details" id="details-${subject.replace(/\s+/g, '-')}">
-                                    <div class="absence-count">Absences: ${absenceCount}</div>
-                                    ${absencesForSubject.length === 0 ? 
-                                        `<div class="no-absences">No absences recorded for ${subject}</div>` :
-                                        absencesForSubject.map(a => `
-                                            <div class="absence-item">
-                                                <span class="absence-date">Date: ${a.date || 'N/A'}</span>
-                                                <span class="absence-weight">Weight: ${a.weight || 'N/A'}</span>
-                                            </div>
-                                        `).join('')}
-                                </div>
-                            `;
-                            absenceDetails.appendChild(sectionDiv);
-                        });
-
-                        document.querySelectorAll('.subject-header').forEach(header => {
-                            header.addEventListener('click', () => {
-                                const subject = header.dataset.subject;
-                                const details = document.getElementById(`details-${subject.replace(/\s+/g, '-')}`);
-                                const isVisible = details.classList.contains('show');
-
-                                document.querySelectorAll('.subject-details').forEach(d => d.classList.remove('show'));
-                                document.querySelectorAll('.subject-header').forEach(h => h.classList.remove('active'));
-
-                                if (!isVisible) {
-                                    details.classList.add('show');
-                                    header.classList.add('active');
-                                }
-                            });
-                        });
-                    }
-
-                    // Fetch absences
-                    const professorActionsRef = db.ref('professorActions');
-                    professorActionsRef.on('value', (snapshot) => {
-                        const allActions = [];
-                        snapshot.forEach(professorSnapshot => {
-                            professorSnapshot.forEach(actionSnapshot => {
-                                const action = actionSnapshot.val();
-                                if (action.cin === cin && action.status === 'absent') {
-                                    const mappedSubject = subjectMapping[action.subject] || action.subject;
-                                    allActions.push({
-                                        ...action,
-                                        mappedSubject: mappedSubject
-                                    });
-                                }
-                            });
-                        });
-                        renderAbsences(allActions);
-                    }, (error) => {
-                        showToast('Error loading absence data');
-                    });
-
-                    // Listen for student data
-                    studentRef.on('value', (snapshot) => {
-                        if (snapshot.exists()) {
-                            const student = snapshot.val();
-                            const fullName = `${student.firstName} ${student.lastName}`;
-                            studentClass = student.class || 'Not specified';
-                            document.getElementById('welcome-message').textContent = `Welcome, ${fullName}`;
-                            document.getElementById('class-info').textContent = `Class: ${studentClass}`;
-                            const emailInput = document.getElementById('email-input');
-                            if (student.email) {
-                                emailInput.value = student.email;
-                            } else {
-                                document.getElementById('email-modal').style.display = 'flex';
-                            }
-
-                            // Load classmates
-                            db.ref('students').orderByChild('class').equalTo(studentClass).once('value').then((snapshot) => {
-                                classmates = [];
-                                snapshot.forEach(childSnapshot => {
-                                    const s = childSnapshot.val();
-                                    const sCin = childSnapshot.key;
-                                    if (sCin !== cin) {
-                                        classmates.push({ cin: sCin, firstName: s.firstName, lastName: s.lastName });
-                                    }
-                                });
-                                renderClassmates();
-                            }).catch(error => {
-                                showToast('Error loading classmates');
-                            });
-                        } else {
-                            showToast('Student not found. Please log in again.', 6000, true);
-                            setTimeout(() => {
-                                window.location.href = 'index.html';
-                            }, 6000);
-                        }
-                    }, (error) => {
-                        showToast('Error loading student data', 6000, true);
-                    });
-
-                    // Load shared files
-                    const sharedFilesList = document.getElementById('shared-files-list');
-                    const filesModal = document.getElementById('files-modal');
-
-                    db.ref('sharedFiles').on('value', (snapshot) => {
-                        sharedFilesList.innerHTML = '';
-                        const files = [];
-                        snapshot.forEach(childSnapshot => {
-                            const fileData = childSnapshot.val();
-                            files.push({ id: childSnapshot.key, ...fileData });
-                        });
-
-                        if (files.length === 0) {
-                            sharedFilesList.innerHTML = `<div class="no-files">No files shared yet</div>`;
-                        } else {
-                            files.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
-                            files.forEach(file => {
-                                const uploadDate = new Date(file.uploadDate);
-                                const formattedDate = uploadDate.toLocaleDateString('en-GB', {
-                                    day: '2-digit',
-                                    month: '2-digit',
-                                    year: 'numeric'
-                                }) + ', ' + uploadDate.toLocaleTimeString('en-US', {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                    hour12: true
-                                });
-
-                                const fileItem = document.createElement('div');
-                                fileItem.className = 'file-item';
-                                fileItem.innerHTML = `
-                                    <div class="file-info">
-                                        <span class="file-name">${file.fileName}</span>
-                                        <div class="file-details">
-                                            Uploaded by: ${file.professorName} (${file.subject || 'N/A'})<br>
-                                            ${formattedDate}
-                                        </div>
-                                    </div>
-                                    <a href="#" class="download-link" data-id="${file.id}" data-filename="${file.fileName}" data-type="${file.fileType}" data-salt="${file.salt}">Download</a>
-                                `;
-                                sharedFilesList.appendChild(fileItem);
-                            });
-
-                            document.querySelectorAll('.download-link').forEach(link => {
-                                link.addEventListener('click', async (e) => {
-                                    e.preventDefault();
-                                    const fileId = link.dataset.id;
-                                    const fileName = link.dataset.filename;
-                                    const fileType = link.dataset.type;
-                                    const salt = link.dataset.salt;
-
-                                    try {
-                                        const fileSnapshot = await db.ref(`sharedFiles/${fileId}`).once('value');
-                                        const fileData = fileSnapshot.val();
-                                        const encryptedData = fileData.chunks.join('');
-                                        const key = deriveKey(salt);
-                                        const decrypted = CryptoJS.AES.decrypt(encryptedData, key);
-                                        const decryptedBase64 = decrypted.toString(CryptoJS.enc.Base64);
-                                        if (!decryptedBase64) {
-                                            throw new Error('Decryption resulted in empty data');
-                                        }
-                                        const base64String = `data:${fileType};base64,${decryptedBase64}`;
-
-                                        const downloadAnchor = document.createElement('a');
-                                        downloadAnchor.href = base64String;
-                                        downloadAnchor.download = fileName;
-                                        document.body.appendChild(downloadAnchor);
-                                        downloadAnchor.click();
-                                        document.body.removeChild(downloadAnchor);
-                                    } catch (error) {
-                                        showToast(`Error downloading file: ${error.message}`);
-                                    }
-                                });
-                            });
-                        }
-                    }, (error) => {
-                        showToast('Error loading shared files');
-                    });
-
-                    // Render classmates
-                    function renderClassmates() {
-                        const modalClassmatesList = document.getElementById('modal-classmates-list');
-                        modalClassmatesList.innerHTML = '';
-                        if (classmates.length === 0) {
-                            modalClassmatesList.innerHTML = `<div class="no-classmates">No classmates found</div>`;
-                        } else {
-                            classmates.forEach(classmate => {
-                                const item = document.createElement('div');
-                                item.className = 'classmate-item';
-                                item.innerHTML = `Name: ${classmate.firstName} ${classmate.lastName}`;
-                                modalClassmatesList.appendChild(item);
-                            });
-                        }
-                    }
-
-                    // Event Listeners
-                    const classmatesModal = document.getElementById('classmates-modal');
-                    const emailModal = document.getElementById('email-modal');
-                    const hamburgerSidebar = document.getElementById('hamburger-sidebar');
-
-                    document.getElementById('hamburger-btn').addEventListener('click', () => {
-                        hamburgerSidebar.classList.add('open');
-                    });
-
-                    document.getElementById('close-hamburger-sidebar').addEventListener('click', () => {
-                        hamburgerSidebar.classList.remove('open');
-                    });
-
-                    document.getElementById('sidebar-classmates-btn').addEventListener('click', () => {
-                        classmatesModal.style.display = 'flex';
-                        hamburgerSidebar.classList.remove('open');
-                    });
-
-                    document.getElementById('sidebar-email-btn').addEventListener('click', () => {
-                        emailModal.style.display = 'flex';
-                        hamburgerSidebar.classList.remove('open');
-                    });
-
-                    document.getElementById('files-btn').addEventListener('click', () => {
-                        filesModal.style.display = 'flex';
-                    });
-
-                    document.getElementById('update-email-btn').addEventListener('click', () => {
-                        const emailInput = document.getElementById('email-input');
-                        const email = emailInput.value.trim();
-                        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                            showToast('Please enter a valid email');
-                            return;
-                        }
-                        db.ref('students/' + cin).update({ email }).then(() => {
-                            showToast('Email updated successfully');
-                            emailModal.style.display = 'none';
-                        }).catch(error => {
-                            showToast('Error updating email');
-                        });
-                    });
-
-                    // Close modals when clicking outside
-                    document.addEventListener('click', (e) => {
-                        if (!classmatesModal.querySelector('.modal-content').contains(e.target) && !e.target.closest('#sidebar-classmates-btn') && classmatesModal.style.display === 'flex') {
-                            classmatesModal.style.display = 'none';
-                        }
-                        if (!emailModal.querySelector('.modal-content').contains(e.target) && !e.target.closest('#sidebar-email-btn') && emailModal.style.display === 'flex') {
-                            emailModal.style.display = 'none';
-                        }
-                        if (!filesModal.querySelector('.modal-content').contains(e.target) && !e.target.closest('#files-btn') && !e.target.closest('.download-link') && filesModal.style.display === 'flex') {
-                            filesModal.style.display = 'none';
-                        }
-                        if (!hamburgerSidebar.contains(e.target) && !e.target.closest('#hamburger-btn') && hamburgerSidebar.classList.contains('open')) {
-                            hamburgerSidebar.classList.remove('open');
-                        }
-                    });
-
-                    // Home button (logs out)
-                    document.getElementById('home-btn').addEventListener('click', async () => {
-                        await db.ref(`loginTokens/${cin}`).remove(); // Clean up all tokens for this CIN
-                        window.location.href = 'index.html';
-                    });
-
-                    // Dark Mode Toggle
-                    document.getElementById('dark-mode-toggle').addEventListener('click', () => {
-                        document.body.classList.toggle('dark-mode');
-                        const isDarkMode = document.body.classList.contains('dark-mode');
-                        const toggleButton = document.getElementById('dark-mode-toggle');
-                        toggleButton.querySelector('span:first-child').textContent = isDarkMode ? '🌞' : '🌙';
-                        toggleButton.querySelector('span:last-child').textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
-                        localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
-                        showToast(isDarkMode ? 'Dark mode enabled' : 'Light mode enabled');
-                    });
-
-                    // Auto-logout after 15 minutes
-                    setTimeout(async () => {
-                        await db.ref(`loginTokens/${cin}`).remove();
-                        showToast('Session expired. Please log in again.', 6000, true);
-                        setTimeout(() => {
-                            window.location.href = 'index.html';
-                        }, 6000);
-                    }, 15 * 60 * 1000); // 15 minutes
-                }
-            } catch (error) {
-                console.error('Initialization error:', error);
-                showToast('Error initializing page. Please try again.', 6000, true);
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 6000);
+        (function() {
+            // Ensure Firebase is loaded
+            if (typeof firebase === 'undefined') {
+                console.error('Firebase failed to load');
+                document.getElementById('shared-files-list').innerHTML = '<div class="no-files">Failed to load file system. Please check your internet connection.</div>';
+                return;
             }
-        });
+
+            // Firebase Configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyD2TT6oEZu6zLo5bvVDN2ctIV6VArO-kn0",
+                authDomain: "download-9b2c6.firebaseapp.com",
+                databaseURL: "https://download-9b2c6-default-rtdb.europe-west1.firebasedatabase.app",
+                projectId: "download-9b2c6",
+                storageBucket: "download-9b2c6.firebasestorage.app",
+                messagingSenderId: "749735866081",
+                appId: "1:749735866081:web:236175aa5f605d224ed1a0"
+            };
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.database();
+
+            // Base passphrase
+            const BASE_PASSPHRASE = 'ISET_Siliana_Secure_2025!@#$';
+
+            // Derive encryption key
+            function deriveKey(salt) {
+                return CryptoJS.PBKDF2(BASE_PASSPHRASE, salt, {
+                    keySize: 256 / 32,
+                    iterations: 10000
+                }).toString();
+            }
+
+            // Dark Mode Toggle
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+                const toggleButton = document.getElementById('dark-mode-toggle');
+                toggleButton.querySelector('span:first-child').textContent = '🌞';
+                toggleButton.querySelector('span:last-child').textContent = 'Light Mode';
+            }
+
+            // Load shared files
+            const sharedFilesList = document.getElementById('shared-files-list');
+            const filesModal = document.getElementById('files-modal');
+
+            db.ref('sharedFiles').on('value', (snapshot) => {
+                sharedFilesList.innerHTML = '';
+                const files = [];
+                snapshot.forEach(childSnapshot => {
+                    const fileData = childSnapshot.val();
+                    files.push({ id: childSnapshot.key, ...fileData });
+                });
+
+                if (files.length === 0) {
+                    sharedFilesList.innerHTML = `<div class="no-files">No files shared yet</div>`;
+                } else {
+                    files.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
+                    files.forEach(file => {
+                        const uploadDate = new Date(file.uploadDate);
+                        const formattedDate = uploadDate.toLocaleDateString('en-GB', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                        }) + ', ' + uploadDate.toLocaleTimeString('en-US', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: true
+                        });
+
+                        const fileItem = document.createElement('div');
+                        fileItem.className = 'file-item';
+                        fileItem.innerHTML = `
+                            <div class="file-info">
+                                <span class="file-name">${file.fileName}</span>
+                                <div class="file-details">
+                                    Uploaded by: ${file.professorName || 'N/A'} (${file.subject || 'N/A'})<br>
+                                    ${formattedDate}
+                                </div>
+                            </div>
+                            <a href="#" class="download-link" data-id="${file.id}" data-filename="${file.fileName}" data-type="${file.fileType || 'application/octet-stream'}" data-salt="${file.salt || ''}">Download</a>
+                        `;
+                        sharedFilesList.appendChild(fileItem);
+                    });
+
+                    document.querySelectorAll('.download-link').forEach(link => {
+                        link.addEventListener('click', async (e) => {
+                            e.preventDefault();
+                            const fileId = link.dataset.id;
+                            const fileName = link.dataset.filename;
+                            const fileType = link.dataset.type;
+                            const salt = link.dataset.salt;
+
+                            try {
+                                const fileSnapshot = await db.ref(`sharedFiles/${fileId}`).once('value');
+                                const fileData = fileSnapshot.val();
+                                const encryptedData = fileData.chunks ? fileData.chunks.join('') : fileData.fileContent;
+                                const key = deriveKey(salt || '');
+                                const decrypted = CryptoJS.AES.decrypt(encryptedData, key);
+                                const decryptedBase64 = decrypted.toString(CryptoJS.enc.Base64);
+                                if (!decryptedBase64) {
+                                    throw new Error('Decryption resulted in empty data');
+                                }
+                                const base64String = `data:${fileType};base64,${decryptedBase64}`;
+
+                                const downloadAnchor = document.createElement('a');
+                                downloadAnchor.href = base64String;
+                                downloadAnchor.download = fileName;
+                                document.body.appendChild(downloadAnchor);
+                                downloadAnchor.click();
+                                document.body.removeChild(downloadAnchor);
+                            } catch (error) {
+                                console.error('Download error:', error);
+                                alert(`Error downloading file: ${error.message}`);
+                            }
+                        });
+                    });
+                }
+            }, (error) => {
+                console.error('Database error:', error);
+                sharedFilesList.innerHTML = '<div class="no-files">Error loading files</div>';
+            });
+
+            // Event Listeners
+            document.getElementById('files-btn').addEventListener('click', () => {
+                filesModal.classList.add('show');
+            });
+
+            document.getElementById('dark-mode-toggle').addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const isDarkMode = document.body.classList.contains('dark-mode');
+                const toggleButton = document.getElementById('dark-mode-toggle');
+                toggleButton.querySelector('span:first-child').textContent = isDarkMode ? '🌞' : '🌙';
+                toggleButton.querySelector('span:last-child').textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
+                localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+            });
+
+            // Close modal when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!filesModal.querySelector('.modal-content').contains(e.target) && !e.target.closest('#files-btn') && filesModal.classList.contains('show')) {
+                    filesModal.classList.remove('show');
+                }
+            });
+        })();
     </script>
 </body>
 </html>
