@@ -207,79 +207,34 @@
             color: #2d3748;
         }
 
-        /* Presentation Section Styles */
-        .presentation-section {
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 800px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .presentation-section h2 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .presentation-section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, #3498db, #5dade2);
-        }
-
-        .presentation-links {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .presentation-card {
-            width: 300px;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .presentation-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .presentation-card h3 {
-            color: #2c3e50;
+        /* Presentation Modal Styles */
+        .presentation-item {
+            padding: 12px;
             margin-bottom: 10px;
-            font-size: 18px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .presentation-card p {
-            color: #555;
-            font-size: 14px;
-            margin-bottom: 15px;
+        .presentation-item h3 {
+            margin: 0 0 8px 0;
+            color: #2c3e50;
+            font-size: 16px;
         }
 
-        .presentation-btn {
+        .presentation-link {
             display: inline-block;
-            padding: 8px 16px;
+            padding: 8px 12px;
             background-color: #3498db;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 4px;
+            text-align: center;
             transition: background-color 0.3s ease;
         }
 
-        .presentation-btn:hover {
+        .presentation-link:hover {
             background-color: #2980b9;
         }
 
@@ -334,25 +289,12 @@
             color: #ffffff;
         }
 
-        body.dark-mode .presentation-section {
-            background-color: #1e1e1e;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-
-        body.dark-mode .presentation-section h2 {
-            color: #ffffff;
-        }
-
-        body.dark-mode .presentation-card {
+        body.dark-mode .presentation-item {
             background-color: #252525;
         }
 
-        body.dark-mode .presentation-card h3 {
+        body.dark-mode .presentation-item h3 {
             color: #ffffff;
-        }
-
-        body.dark-mode .presentation-card p {
-            color: #aaaaaa;
         }
 
         @keyframes slideUp {
@@ -375,40 +317,39 @@
             .file-item {
                 font-size: 12px;
             }
-            .presentation-card {
-                width: 100%;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Presentation Section -->
-    <section class="presentation-section">
-        <h2>Technical Presentations</h2>
-        <div class="presentation-links">
-            <div class="presentation-card">
-                <h3>Présentation Technique Google Drive</h3>
-                <p>Access the technical presentation hosted on Google Drive</p>
-                <a href="https://docs.google.com/presentation/d/110fyf4QSmAQNIAumof8GjXnU4iUneflR/edit?usp=sharing&ouid=101191833800876859276&rtpof=true&sd=true" class="presentation-btn" target="_blank">Open Presentation</a>
-            </div>
-            <div class="presentation-card">
-                <h3>Présentation Technique Microsoft Drive</h3>
-                <p>Access the technical presentation hosted on Microsoft OneDrive</p>
-                <a href="https://1drv.ms/p/c/cfd26933062e1aa4/EeLq562KzNdMmuP9_2qYg70BbxMwBX0V5_AIZs0r2T8VMQ?e=hdVoA4" class="presentation-btn" target="_blank">Open Presentation</a>
-            </div>
-        </div>
-    </section>
-
     <nav>
+        <button class="nav-btn" id="presentations-btn" aria-label="Presentations"><span>📊</span><span>Presentations</span></button>
         <button class="nav-btn" id="files-btn" aria-label="Shared Files"><span>📁</span><span>Shared Files</span></button>
         <button class="nav-btn" id="dark-mode-toggle" aria-label="Toggle dark mode"><span>🌙</span><span>Dark Mode</span></button>
     </nav>
+
+    <!-- Files Modal -->
     <div id="files-modal" class="modal files-modal">
         <div class="modal-content">
             <h2>Shared Files</h2>
             <div id="shared-files-list"></div>
         </div>
     </div>
+
+    <!-- Presentations Modal -->
+    <div id="presentations-modal" class="modal">
+        <div class="modal-content">
+            <h2>Technical Presentations</h2>
+            <div class="presentation-item">
+                <h3>Présentation Technique Microsoft Drive</h3>
+                <a href="https://1drv.ms/p/c/cfd26933062e1aa4/EeLq562KzNdMmuP9_2qYg70BbxMwBX0V5_AIZs0r2T8VMQ?e=hdVoA4" class="presentation-link" target="_blank">Open Presentation</a>
+            </div>
+            <div class="presentation-item">
+                <h3>Présentation Technique Google Drive</h3>
+                <a href="https://docs.google.com/presentation/d/110fyf4QSmAQNIAumof8GjXnU4iUneflR/edit?usp=sharing&ouid=101191833800876859276&rtpof=true&sd=true" class="presentation-link" target="_blank">Open Presentation</a>
+            </div>
+        </div>
+    </div>
+
     <div id="progress-container" class="progress-container">
         <div class="progress-bar">
             <div class="progress-fill" id="progress-fill"></div>
@@ -456,6 +397,7 @@
             // Load shared files
             const sharedFilesList = document.getElementById('shared-files-list');
             const filesModal = document.getElementById('files-modal');
+            const presentationsModal = document.getElementById('presentations-modal');
 
             db.ref('sharedFiles').on('value', (snapshot) => {
                 sharedFilesList.innerHTML = '';
@@ -597,6 +539,10 @@
                 filesModal.classList.add('show');
             });
 
+            document.getElementById('presentations-btn').addEventListener('click', () => {
+                presentationsModal.classList.add('show');
+            });
+
             document.getElementById('dark-mode-toggle').addEventListener('click', () => {
                 document.body.classList.toggle('dark-mode');
                 const isDarkMode = document.body.classList.contains('dark-mode');
@@ -606,10 +552,20 @@
                 localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
             });
 
-            // Close modal when clicking outside
+            // Close modals when clicking outside
             document.addEventListener('click', (e) => {
-                if (!filesModal.querySelector('.modal-content').contains(e.target) && !e.target.closest('#files-btn') && filesModal.classList.contains('show')) {
+                // Close files modal
+                if (!filesModal.querySelector('.modal-content').contains(e.target) && 
+                    !e.target.closest('#files-btn') && 
+                    filesModal.classList.contains('show')) {
                     filesModal.classList.remove('show');
+                }
+                
+                // Close presentations modal
+                if (!presentationsModal.querySelector('.modal-content').contains(e.target) && 
+                    !e.target.closest('#presentations-btn') && 
+                    presentationsModal.classList.contains('show')) {
+                    presentationsModal.classList.remove('show');
                 }
             });
         })();
