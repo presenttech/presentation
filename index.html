@@ -3,78 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Sharing - Home</title>
-    <!-- Prevent XSS with Content Security Policy -->
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://www.gstatic.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; object-src 'none';">
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
-    <!-- Firebase SDKs (compat for namespaced syntax) -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-    <!-- CryptoJS for encryption -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <title>File Sharing</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://www.gstatic.com https://cdnjs.cloudflare.com; object-src 'none';">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
-        .header {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
-        .file-card {
-            background: white;
-            border-radius: 12px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .file-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        .download-btn {
-            transition: background-color 0.3s ease;
-        }
-        .download-btn:hover {
-            background-color: #2563eb;
-        }
-        .loading-spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3b82f6;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        @media (max-width: 640px) {
-            .container { padding: 1rem; }
-            .file-card { padding: 1rem; }
-        }
+        body { font-family: 'Roboto', sans-serif; background-color: #f5f5f5; padding: 15px; padding-bottom: 60px; margin: 0; }
+        nav { position: fixed; bottom: 0; width: 100%; background-color: #2c3e50; display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 -2px 5px rgba(0,0,0,0.2); z-index: 1000; }
+        .nav-btn { display: flex; flex-direction: column; align-items: center; background: none; border: none; color: white; font-size: 10px; padding: 5px; cursor: pointer; transition: transform 0.2s ease, color 0.2s ease; border-radius: 6px; }
+        .nav-btn:hover { transform: scale(1.1); color: #3498db; }
+        .nav-btn span { margin-top: 2px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .file-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
+        .file-item { background-color: #ffffff; padding: 15px; border-radius: 10px; border: 2px solid #3498db; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: transform 0.3s ease; }
+        .file-item:hover { transform: translateY(-5px); }
+        .file-info { margin-bottom: 10px; }
+        .file-name { color: #3498db; font-weight: 600; font-size: 16px; }
+        .file-details { color: #555; font-size: 12px; margin-top: 4px; }
+        .download-btn { background-color: #3498db; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; transition: background-color 0.3s ease; width: 100%; }
+        .download-btn:hover { background-color: #5dade2; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; }
+        .modal.show { display: flex; }
+        .modal-content { background-color: #ffffff; padding: 20px; border-radius: 10px; border: 2px solid #3498db; width: 90%; max-width: 340px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        .modal-content h2 { margin-bottom: 15px; color: #2c3e50; font-size: 22px; font-weight: 700; text-align: center; }
+        .modal-content p { margin: 10px 0; font-size: 14px; }
+        .modal-content button { background-color: #3498db; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; transition: background-color 0.3s ease; width: 100%; }
+        .modal-content button:hover { background-color: #5dade2; }
+        @media (max-width: 600px) { .file-list { grid-template-columns: 1fr; } .file-item { padding: 12px; } .nav-btn { font-size: 9px; padding: 3px; } .modal-content { padding: 12px; } }
     </style>
 </head>
 <body>
+    <nav>
+        <button class="nav-btn" id="admin-btn" aria-label="Admin Login"><span>🔑</span><span>Admin</span></button>
+    </nav>
     <div class="container">
-        <header class="header rounded-xl p-6 mb-8">
-            <h1 class="text-4xl font-bold text-gray-800 text-center">Secure File Sharing</h1>
-            <p class="text-center text-gray-600 mt-2">Access and download shared files with ease</p>
-        </header>
-        <div id="fileList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Files will be dynamically inserted here -->
+        <div id="fileList" class="file-list"></div>
+    </div>
+    <div id="admin-modal" class="modal">
+        <div class="modal-content">
+            <h2>Admin Profile</h2>
+            <p id="admin-email">Email: Loading...</p>
+            <p id="admin-uid">UID: Loading...</p>
+            <button id="redirect-admin-btn" aria-label="Go to Admin Page">Go to Admin Page</button>
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
-        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyD2TT6oEZu6zLo5bvVDN2ctIV6VArO-kn0",
             authDomain: "download-9b2c6.firebaseapp.com",
@@ -85,55 +61,29 @@
             appId: "1:749735866081:web:236175aa5f605d224ed1a0"
         };
 
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
         const db = firebase.database();
 
-        // Encryption key (move to backend in production)
-        const ENCRYPTION_KEY = "securePassphrase123";
+        const ENCRYPTION_KEY = 'securePassphrase123';
 
-        // Encrypt data
-        function encryptData(data) {
-            try {
-                return CryptoJS.AES.encrypt(data, ENCRYPTION_KEY).toString();
-            } catch (e) {
-                console.error("Encryption error:", e);
-                return null;
-            }
-        }
-
-        // Decrypt data
         function decryptData(encryptedData) {
-            try {
-                const bytes = CryptoJS.AES.decrypt(encryptedData, ENCRYPTION_KEY);
-                const decrypted = bytes.toString(CryptoJS.enc.Utf8);
-                if (!decrypted) throw new Error("Decryption resulted in empty string");
-                return decrypted;
-            } catch (e) {
-                console.error("Decryption error:", e);
-                return null;
-            }
+            try { 
+                const bytes = CryptoJS.AES.decrypt(encryptedData, ENCRYPTION_KEY); 
+                const decrypted = bytes.toString(CryptoJS.enc.Utf8); 
+                if (!decrypted) throw new Error("Decryption empty"); 
+                return decrypted; 
+            } catch (e) { console.error("Decryption error:", e); return null; }
         }
 
-        // Sanitize input to prevent XSS
-        function sanitizeInput(input) {
-            const div = document.createElement("div");
-            div.textContent = input;
-            return div.innerHTML;
-        }
+        function sanitizeInput(input) { const div = document.createElement("div"); div.textContent = input; return div.innerHTML; }
 
-        // Load files from database
         function loadFiles() {
             const fileList = document.getElementById("fileList");
-            fileList.innerHTML = '<div class="loading-spinner"></div>';
-
+            fileList.innerHTML = "<p>Loading...</p>";
             db.ref("sharedFiles").on("value", (snapshot) => {
                 fileList.innerHTML = "";
-                if (!snapshot.exists()) {
-                    fileList.innerHTML = "<p class='text-center text-gray-500 col-span-full'>No files available.</p>";
-                    return;
-                }
-
+                if (!snapshot.exists()) { fileList.innerHTML = "<p>No files available.</p>"; return; }
                 const files = [];
                 snapshot.forEach((childSnapshot) => {
                     const fileData = childSnapshot.val();
@@ -141,89 +91,92 @@
                         files.push({ id: childSnapshot.key, ...fileData });
                     }
                 });
-
-                if (files.length === 0) {
-                    fileList.innerHTML = "<p class='text-center text-gray-500 col-span-full'>No valid files found.</p>";
-                    return;
-                }
-
+                if (files.length === 0) { fileList.innerHTML = "<p>No valid files found.</p>"; return; }
                 files.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
-
                 files.forEach((file) => {
-                    const fileCard = document.createElement("div");
-                    fileCard.className = "file-card p-6";
-                    const fileName = sanitizeInput(file.fileName);
-                    const uploadDate = file.uploadDate ? new Date(file.uploadDate).toLocaleString("en-GB") : "Unknown";
-
-                    fileCard.innerHTML = `
-                        <div class="flex items-center space-x-3">
-                            <svg class="h-8 w-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                            </svg>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-800">${fileName}</h3>
-                                <p class="text-sm text-gray-500">Uploaded: ${uploadDate}</p>
-                            </div>
+                    const uploadDate = new Date(file.uploadDate).toLocaleString("en-GB");
+                    const fileItem = document.createElement("div");
+                    fileItem.className = "file-item";
+                    fileItem.innerHTML = `
+                        <div class="file-info">
+                            <div class="file-name">${sanitizeInput(file.fileName)}</div>
+                            <div class="file-details">Uploaded: ${uploadDate}</div>
                         </div>
-                        <button class="download-btn mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg w-full hover:bg-blue-600" onclick="downloadFile('${file.id}', '${fileName}')">Download</button>
+                        <button class="download-btn" onclick="downloadFile('${file.id}', '${sanitizeInput(file.fileName)}')">Download</button>
                     `;
-                    fileList.appendChild(fileCard);
+                    fileList.appendChild(fileItem);
                 });
             }, (error) => {
                 console.error("Database error:", error);
-                fileList.innerHTML = "<p class='text-center text-red-500 col-span-full'>Error loading files. Please try again later.</p>";
+                fileList.innerHTML = "<p>Error loading files.</p>";
             });
         }
 
-        // Download file
         window.downloadFile = function(fileId, fileName) {
-            db.ref(`sharedFiles/${fileId}`).once("value")
-                .then((snapshot) => {
-                    const fileData = snapshot.val();
-                    if (!fileData || !fileData.fileContent) {
-                        alert("File not found or corrupted.");
-                        return;
-                    }
-
-                    const decryptedData = decryptData(fileData.fileContent);
-                    if (!decryptedData) {
-                        alert("Failed to decrypt file. It may be corrupted or the key is incorrect.");
-                        return;
-                    }
-
-                    try {
-                        const byteCharacters = atob(decryptedData);
-                        const byteNumbers = new Uint8Array(byteCharacters.length);
-                        for (let i = 0; i < byteCharacters.length; i++) {
-                            byteNumbers[i] = byteCharacters.charCodeAt(i);
-                        }
-                        const blob = new Blob([byteNumbers], { type: fileData.fileType || "application/octet-stream" });
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement("a");
-                        a.href = url;
-                        a.download = fileName;
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                        URL.revokeObjectURL(url);
-                    } catch (e) {
-                        console.error("Download error:", e);
-                        alert("Error processing file for download.");
-                    }
-                })
-                .catch((error) => {
-                    console.error("Download fetch error:", error);
-                    alert("Error retrieving file from database.");
-                });
+            db.ref(`sharedFiles/${fileId}`).once("value").then((snapshot) => {
+                const fileData = snapshot.val();
+                if (!fileData || !fileData.fileContent) { alert("File not found or corrupted."); return; }
+                const decryptedData = decryptData(fileData.fileContent);
+                if (!decryptedData) { alert("Decryption failed."); return; }
+                try {
+                    const byteCharacters = atob(decryptedData);
+                    const byteNumbers = new Uint8Array(byteCharacters.length);
+                    for (let i = 0; i < byteCharacters.length; i++) byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    const blob = new Blob([byteNumbers], { type: fileData.fileType || "application/octet-stream" });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                } catch (e) {
+                    console.error("Download error:", e);
+                    alert("Error processing file.");
+                }
+            }).catch((error) => {
+                console.error("Fetch error:", error);
+                alert("Error retrieving file.");
+            });
         };
 
-        // Initialize on page load
         document.addEventListener("DOMContentLoaded", () => {
             if (typeof firebase === "undefined" || typeof CryptoJS === "undefined") {
-                document.getElementById("fileList").innerHTML = "<p class='text-center text-red-500 col-span-full'>Required libraries failed to load.</p>";
-            } else {
-                loadFiles();
+                document.getElementById("fileList").innerHTML = "<p>Libraries failed to load.</p>";
+                return;
             }
+
+            loadFiles();
+
+            const adminBtn = document.getElementById("admin-btn");
+            const adminModal = document.getElementById("admin-modal");
+            const redirectAdminBtn = document.getElementById("redirect-admin-btn");
+            const adminEmail = document.getElementById("admin-email");
+            const adminUid = document.getElementById("admin-uid");
+
+            adminBtn.addEventListener("click", () => {
+                auth.onAuthStateChanged((user) => {
+                    if (user) {
+                        adminEmail.textContent = `Email: ${user.email || "Not provided"}`;
+                        adminUid.textContent = `UID: ${user.uid || "Not provided"}`;
+                        adminModal.classList.add("show");
+                    } else {
+                        alert("Please log in to access the admin page.");
+                        window.location.href = "login.html";
+                    }
+                });
+            });
+
+            redirectAdminBtn.addEventListener("click", () => {
+                window.location.href = "admin.html";
+            });
+
+            document.addEventListener("click", (e) => {
+                if (!adminModal.querySelector(".modal-content").contains(e.target) && !e.target.closest("#admin-btn") && adminModal.classList.contains("show")) {
+                    adminModal.classList.remove("show");
+                }
+            });
         });
     </script>
 </body>
